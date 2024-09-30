@@ -3,6 +3,7 @@ import pic1 from '../assets/pic1.png';
 import packages from '../assets/packages.png';
 import { MdOutlineStarPurple500 } from 'react-icons/md';
 import desert from '../assets/desert.png'
+import Header from './Header';
 
 function Packages() {
     // Sample popular package data (could be fetched from an API)
@@ -40,13 +41,7 @@ function Packages() {
 
     return (
         <div className='w-full p-8'>
-            <header className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold">PACKAGES</h2>
-                <div className="flex items-center">
-                    <input type="text" placeholder="Search" className="p-2 rounded mr-4 bg-gray-100" />
-                    <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
-                </div>
-            </header>
+            <Header />
 
             <div className='flex gap-4'>
                 {/* Static New Package Section */}
