@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 const Sidebar = () => {
     return (
         <div>
-            <div className="w-52 bg-[#E8F5FE] h-screen">
+            <div className="w-52 bg-[#E8F5FE] h-full ">
                 <div className="p-4 pt-10">
                     <h1 className="text-2xl font-bold">KKRA</h1>
                 </div>
