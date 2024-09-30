@@ -1,5 +1,7 @@
-import React from 'react'
-import { Home, Package, BookOpen, Calendar, Users, MapPin, Truck } from 'lucide-react';
+import React from 'react';
+import { FaHome, FaBox, FaBookOpen, FaCalendarAlt, FaUsers, FaMapMarkerAlt, FaTruck } from 'react-icons/fa'; // Importing react-icons
+import { NavLink } from 'react-router-dom';
+
 const Sidebar = () => {
     return (
         <div>
@@ -8,38 +10,59 @@ const Sidebar = () => {
                     <h1 className="text-2xl font-bold">KKRA</h1>
                 </div>
                 <nav className="mt-6">
-                    <a href="#" className="flex items-center px-4 py-2 text-purple-600 ">
-                        <Home className="mr-3" size={20} />
+                    <NavLink
+                        to="/"
+                        className={({ isActive }) => `flex items-center px-4 py-2 ${isActive ? 'text-[#4318FF]' : 'text-[#000000]'}`}
+                    >
+                        <FaHome className="mr-3" size={20} />
                         Dashboard
-                    </a>
-                    <a href="#" className="flex items-center px-4 py-2 text-gray-700">
-                        <Package className="mr-3" size={20} />
+                    </NavLink>
+                    <NavLink
+                        to="/packages"
+                        className={({ isActive }) => `flex pt-6 items-center px-4 py-2 ${isActive ? 'text-[#4318FF]' : 'text-[#000000]'}`}
+                    >
+                        <FaBox className="mr-3" size={20} />
                         Packages
-                    </a>
-                    <a href="#" className="flex items-center px-4 py-2 text-gray-700">
-                        <BookOpen className="mr-3" size={20} />
+                    </NavLink>
+                    <NavLink
+                        to="/bookings"
+                        className={({ isActive }) => `flex pt-6 items-center px-4 py-2 ${isActive ? 'text-[#4318FF]' : 'text-[#000000]'}`}
+                    >
+                        <FaBookOpen className="mr-3" size={20} />
                         Bookings
-                    </a>
-                    <a href="#" className="flex items-center px-4 py-2 text-gray-700">
-                        <Calendar className="mr-3" size={20} />
+                    </NavLink>
+                    <NavLink
+                        to="/calendar"
+                        className={({ isActive }) => `flex pt-6 items-center px-4 py-2 ${isActive ? 'text-[#4318FF]' : 'text-[#000000]'}`}
+                    >
+                        <FaCalendarAlt className="mr-3" size={20} />
                         Calendar
-                    </a>
-                    <a href="#" className="flex items-center px-4 py-2 text-gray-700">
-                        <Users className="mr-3" size={20} />
+                    </NavLink>
+                    <NavLink
+                        to="/agents"
+                        className={({ isActive }) => `flex pt-6 items-center px-4 py-2 ${isActive ? 'text-[#4318FF]' : 'text-[#000000]'}`}
+                    >
+                        <FaUsers className="mr-3" size={20} />
                         Agents
-                    </a>
-                    <a href="#" className="flex items-center px-4 py-2 text-gray-700">
-                        <MapPin className="mr-3" size={20} />
+                    </NavLink>
+                    <NavLink
+                        to="/guides"
+                        className={({ isActive }) => `flex pt-6 items-center px-4 py-2 ${isActive ? 'text-[#4318FF]' : 'text-[#000000]'}`}
+                    >
+                        <FaMapMarkerAlt className="mr-3" size={20} />
                         Guides
-                    </a>
-                    <a href="#" className="flex items-center px-4 py-2 text-gray-700">
-                        <Truck className="mr-3" size={20} />
+                    </NavLink>
+                    <NavLink
+                        to="/drivers"
+                        className={({ isActive }) => `flex pt-6 items-center px-4 py-2 ${isActive ? 'text-[#4318FF]' : 'text-[#000000]'}`}
+                    >
+                        <FaTruck className="mr-3" size={20} />
                         Drivers
-                    </a>
+                    </NavLink>
                 </nav>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Sidebar
+export default Sidebar;
