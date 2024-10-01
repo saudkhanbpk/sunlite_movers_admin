@@ -9,6 +9,7 @@ import Agents from '../components/Agents'
 import Guides from '../components/Guides'
 import Drivers from '../components/Drivers'
 import Packages from '../components/Packages'
+import AddPackage from '../components/AddPackage'
 
 
 const AppRoutes = () => {
@@ -30,6 +31,7 @@ const AppRoutes = () => {
                         <Route path='/agents' element={<Agents />} />
                         <Route path='/guides' element={<Guides />} />
                         <Route path='/drivers' element={<Drivers />} />
+                        <Route path='/add_package' element={<AddPackage />} />
                     </Routes>
                 </div>
             </div>
