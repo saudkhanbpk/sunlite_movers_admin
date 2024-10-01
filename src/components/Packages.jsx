@@ -56,7 +56,7 @@ function Packages() {
                     <div className='flex justify-between'>
                         <h2 className='text-xl font-bold self-center'>New Package</h2>
                         <div>
-                            <button className='bg-[#6AD2FF] text-white md:p-3 p-2 rounded-xl font-semibold'>Create Package</button>
+                            <button onClick={handleNewPackage} className='bg-[#6AD2FF] text-white md:p-3 p-2 rounded-xl font-semibold'>Create Package</button>
                         </div>
                     </div>
 
