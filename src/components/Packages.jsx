@@ -43,17 +43,17 @@ function Packages() {
         <div className='w-full p-8'>
             <Header />
 
-            <div className='flex gap-4'>
+            <div className='md:flex gap-4'>
                 {/* Static New Package Section */}
                 <div className='md:w-2/3'>
                     <div className='flex justify-between'>
                         <h2 className='text-xl font-bold self-center'>New Package</h2>
                         <div>
-                            <button className='bg-[#6AD2FF] text-white p-3 rounded-xl font-semibold'>Create Package</button>
+                            <button className='bg-[#6AD2FF] text-white md:p-3 p-2 rounded-xl font-semibold'>Create Package</button>
                         </div>
                     </div>
 
-                    <div className='w-full bg-gray-100 p-3 mt-2 rounded-xl flex gap-3'>
+                    <div className='w-full bg-gray-100 p-3 mt-2 rounded-xl md:flex gap-3'>
                         <div>
                             <img src={pic1} alt='Future Museum Dubai' />
                         </div>
@@ -95,19 +95,19 @@ function Packages() {
             </div>
             <div>
                 <h4 className='text-xl font-bold self-center my-2'>Featured Packages</h4>
-                <div className='w-full bg-gray-100 p-3  rounded-xl flex gap-4'>
+                <div className='w-full bg-gray-100 p-3  rounded-xl md:flex gap-4'>
                     <div >
                         <img src={desert} alt='desert' />
                     </div>
                     <div className='w-full p-2'>
-                        <div className='flex justify-between w-full'>
+                        <div className='flex flex-wrap justify-between w-full'>
                             <h2 className='text-2xl font-bold'>DESERT SAFARI</h2>
                             <h2 className='text-2xl font-bold'>$200/<a className='text-xl'>person</a></h2>
                         </div>
 
 
                         <div className='gap-10 flex my-2'><p className='font-semibold'>7 Days / 6 Nights</p> <p className='font-semibold'>Main Dubai city</p></div>
-                        <div className='w-full flex gap-3'>
+                        <div className='w-full flex flex-wrap gap-3'>
                             <div className='md:w-[470px]'>
                                 <h2 className='font-semibold'>Description</h2>
                                 <p className=''>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard Contrary to popular belief, Lorem Ipsum is not simply random text.
