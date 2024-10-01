@@ -4,9 +4,12 @@ import packages from '../assets/packages.png';
 import { MdOutlineStarPurple500 } from 'react-icons/md';
 import desert from '../assets/desert.png'
 import Header from './Header';
+import { BsUpload } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
 
 function Packages() {
-    // Sample popular package data (could be fetched from an API)
+    const navigate = useNavigate()
+
     const [popularPackages] = useState([
         {
             id: 1,
@@ -30,26 +33,29 @@ function Packages() {
             image: packages
         },
         {
-            id: 1,
-            title: "Dubai Mall",
-            location: "Abu Dhabi main city",
+            id: 4,
+            title: "Sheikh Zayed Mosque",
+            location: "Abu Dhabi",
             rating: 5,
             image: packages
         },
-
     ]);
+
+    const handleNewPackage = () => {
+        navigate('/add_package')
+    }
+
 
     return (
         <div className='w-full p-8'>
             <Header />
 
             <div className='flex gap-4'>
-                {/* Static New Package Section */}
                 <div className='md:w-2/3'>
                     <div className='flex justify-between'>
                         <h2 className='text-xl font-bold self-center'>New Package</h2>
                         <div>
-                            <button className='bg-[#6AD2FF] text-white p-3 rounded-xl font-semibold'>Create Package</button>
+                            <button className='bg-[#6AD2FF] text-white p-3 rounded-xl font-semibold' onClick={handleNewPackage}>Create Package</button>
                         </div>
                     </div>
 
@@ -116,27 +122,30 @@ function Packages() {
                             <div className='w-fit '>
                                 <h2 className='font-semibold'>Activities</h2>
                                 <div className='flex gap-1'>
-                                <MdOutlineStarPurple500 className='self-center' />
-                                <p>rary to popular belief, Lorem Ipsum is n</p>
+                                    <MdOutlineStarPurple500 className='self-center' />
+                                    <p>rary to popular belief, Lorem Ipsum is n</p>
                                 </div>
                                 <div className='flex gap-1'>
-                                <MdOutlineStarPurple500 className='self-center' />
-                                <p>rary to popular belief, Lorem Ipsum is n</p>
+                                    <MdOutlineStarPurple500 className='self-center' />
+                                    <p>rary to popular belief, Lorem Ipsum is n</p>
                                 </div>
                                 <div className='flex gap-1'>
-                                <MdOutlineStarPurple500 className='self-center' />
-                                <p>rary to popular belief, Lorem Ipsum is n</p>
+                                    <MdOutlineStarPurple500 className='self-center' />
+                                    <p>rary to popular belief, Lorem Ipsum is n</p>
                                 </div>
                                 <div className='flex gap-1'>
-                                <MdOutlineStarPurple500 className='self-center' />
-                                <p>rary to popular belief, Lorem Ipsum is n</p>
+                                    <MdOutlineStarPurple500 className='self-center' />
+                                    <p>rary to popular belief, Lorem Ipsum is n</p>
                                 </div>
                                 <div className='flex gap-1'>
-                                <MdOutlineStarPurple500 className='self-center' />
-                                <p>rary to popular belief, Lorem Ipsum is n</p>
+                                    <MdOutlineStarPurple500 className='self-center' />
+                                    <p>rary to popular belief, Lorem Ipsum is n</p>
                                 </div>
                             </div>
                         </div>
+                        {/* {show &&
+                            
+                        } */}
                     </div>
 
                 </div>
