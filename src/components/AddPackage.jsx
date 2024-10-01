@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { BsUpload } from 'react-icons/bs';
 import { BaseUrl } from '../BaseUrl';
+import { useNavigate } from 'react-router-dom';
 
 const AddPackage = () => {
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         title: '',
         destination: '',
@@ -45,6 +47,7 @@ const AddPackage = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            navigate('/')
             console.log('Package created:', response.data);
         } catch (error) {
             console.error('Error creating package:', error);
