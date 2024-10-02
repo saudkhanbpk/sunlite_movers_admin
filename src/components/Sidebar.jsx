@@ -25,6 +25,13 @@ const Sidebar = ({ isOpen }) => {
                         Packages
                     </NavLink>
                     <NavLink
+                        to="/location"
+                        className={({ isActive }) => `flex text-[20px] pt-6 items-center px-4 py-2 ${isActive ? 'text-[#4318FF]' : 'text-[#000000]'}`}
+                    >
+                        <FaBox className="mr-3" size={20} />
+                        Add Location
+                    </NavLink>
+                    <NavLink
                         to="/booking"
                         className={({ isActive }) => `flex text-[20px] pt-6 items-center px-4 py-2 ${isActive ? 'text-[#4318FF]' : 'text-[#000000]'}`}
                     >

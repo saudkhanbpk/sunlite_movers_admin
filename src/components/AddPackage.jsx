@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BsUpload } from 'react-icons/bs';
 import { BaseUrl } from '../BaseUrl';
@@ -9,6 +9,7 @@ const AddPackage = () => {
     const [formData, setFormData] = useState({
         title: '',
         destination: '',
+        locationId: '',
         date: '',
         duration: '',
         price: '',
@@ -16,6 +17,21 @@ const AddPackage = () => {
     });
 
     const [selectedFile, setSelectedFile] = useState(null);
+    const [locations, setLocations] = useState([]);
+
+    useEffect(() => {
+        const fetchLocations = async () => {
+            try {
+                const response = await axios.get(`${BaseUrl}/api/getAllLocations`);
+                setLocations(response.data.locations);
+            } catch (error) {
+                console.error('Error fetching locations:', error);
+            }
+        };
+
+        fetchLocations();
+    }, []);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -30,9 +46,11 @@ const AddPackage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("formdata", FormData)
         const formDataToSend = new FormData();
         formDataToSend.append('title', formData.title);
         formDataToSend.append('destination', formData.destination);
+        formDataToSend.append('locationId', formData.locationId);
         formDataToSend.append('date', formData.date);
         formDataToSend.append('duration', formData.duration);
         formDataToSend.append('price', formData.price);
@@ -42,7 +60,7 @@ const AddPackage = () => {
         }
 
         try {
-            const response = await axios.post(`${BaseUrl}/api/packages/addpackage`, formDataToSend, {
+            const response = await axios.post(`${BaseUrl}/api/addpackage`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -79,6 +97,21 @@ const AddPackage = () => {
                     placeholder="Tour name"
                     className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
+
+                <select
+                    name="locationId"
+                    value={formData.locationId}
+                    onChange={handleChange}
+                    className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                >
+                    <option value="">Select Location</option>
+                    {locations.map(location => (
+                        <option key={location._id} value={location._id}>
+                            {location.name}
+                        </option>
+                    ))}
+                </select>
 
                 <input
                     type="text"

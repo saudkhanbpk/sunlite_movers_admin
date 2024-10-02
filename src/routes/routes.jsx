@@ -10,6 +10,7 @@ import Guides from '../components/Guides'
 import Drivers from '../components/Drivers'
 import Packages from '../components/Packages'
 import AddPackage from '../components/AddPackage'
+import AddLocation from '../components/AddLocation'
 
 
 const AppRoutes = () => {
@@ -32,6 +33,7 @@ const AppRoutes = () => {
                         <Route path='/guides' element={<Guides />} />
                         <Route path='/drivers' element={<Drivers />} />
                         <Route path='/add_package' element={<AddPackage />} />
+                        <Route path='/location' element={<AddLocation />} />
                     </Routes>
                 </div>
             </div>
