@@ -21,6 +21,8 @@ const Header = () => {
                 return 'GUIDES';
             case '/drivers':
                 return 'DRIVERS';
+            case '/calender':
+                    return 'Calender';
             default:
                 return 'Dashboard';
         }

@@ -61,7 +61,7 @@ const Sidebar = ({ isOpen }) => {
                     </NavLink>
                     <NavLink
                         to="/drivers"
-                        className={({ isActive }) => `flex pt-6 items-center px-4 py-2 ${isActive ? 'text-[#4318FF]' : 'text-[#000000]'}`}
+                        className={({ isActive }) => `flex text-[20px] pt-6 items-center px-4 py-2 ${isActive ? 'text-[#4318FF]' : 'text-[#000000]'}`}
                     >
                         <FaTruck className="mr-3" size={20} />
                         Drivers

@@ -11,7 +11,7 @@ import Drivers from '../components/Drivers'
 import Packages from '../components/Packages'
 import AddPackage from '../components/AddPackage'
 import AddLocation from '../components/AddLocation'
-
+import Calendar from '../components/Calendar'
 
 const AppRoutes = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -29,6 +29,7 @@ const AppRoutes = () => {
                         <Route path='/' element={<Dashboard />} />
                         <Route path='/packages' element={<Packages />} />
                         <Route path='/booking' element={<Booking />} />
+                        <Route path='/calendar' element={<Calendar />} />
                         <Route path='/agents' element={<Agents />} />
                         <Route path='/guides' element={<Guides />} />
                         <Route path='/drivers' element={<Drivers />} />
