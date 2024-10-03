@@ -132,12 +132,12 @@ import Header from './Header';
 
 // Sample data with at least 6 employees
 const agentsData = [
-    { id: 1, name: 'Comela Swan', city: 'Abu Dhabi', country: 'UAE', email: 'comelaswan@gmail.com', experience: '5 years', location: 'Abu Dhabi', jobReview: '5 stars', status: 'Active', skills: ['MS background', 'Problem Solving', 'Communication', 'Teamwork'], portfolio: ['Project A', 'Project B'], image: person },
-    { id: 2, name: 'John Doe', city: 'Halain', country: 'UAE', email: 'johndoe@gmail.com', experience: '3 years', location: 'Halain', jobReview: '4 stars', status: 'Active', skills: ['Time Management', 'Leadership', 'MS background'], portfolio: ['Project X', 'Project Y'], image: user },
-    { id: 3, name: 'Jane Smith', city: 'Dubai', country: 'UAE', email: 'janesmith@gmail.com', experience: '8 years', location: 'Dubai', jobReview: '5 stars', status: 'Active', skills: ['Creativity', 'Critical Thinking', 'MS background'], portfolio: ['Project M', 'Project N'], image: user },
-    { id: 4, name: 'Lisa Ray', city: 'Dubai', country: 'UAE', email: 'lisaray@gmail.com', experience: '6 years', location: 'Dubai', jobReview: '5 stars', status: 'Active', skills: ['Leadership', 'Communication'], portfolio: ['Project O', 'Project P'], image: person },
-    { id: 5, name: 'Mark Jones', city: 'Abu Dhabi', country: 'UAE', email: 'markjones@gmail.com', experience: '7 years', location: 'Abu Dhabi', jobReview: '5 stars', status: 'Active', skills: ['Creativity', 'Teamwork'], portfolio: ['Project C', 'Project D'], image: user },
-    { id: 6, name: 'Sarah Connor', city: 'Halain', country: 'UAE', email: 'sarahconnor@gmail.com', experience: '10 years', location: 'Halain', jobReview: '5 stars', status: 'Active', skills: ['Problem Solving', 'Leadership'], portfolio: ['Project E', 'Project F'], image: person },
+    { id: 1, name: 'Comela Swan', city: 'Abu Dhabi', country: 'UAE', email: 'comelaswan@gmail.com', experience: '5 years', location: 'Abu Dhabi', jobReview: '5 stars', status: 'Active', skills: ['MS background', 'Problem Solving', 'Communication', 'Teamwork'],  portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background','Highly focused person with MS background'], image: person },
+    { id: 2, name: 'John Doe', city: 'Halain', country: 'UAE', email: 'johndoe@gmail.com', experience: '3 years', location: 'Halain', jobReview: '4 stars', status: 'Active', skills: ['Time Management', 'Leadership', 'MS background'], portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background','Highly focused person with MS background'], image: user },
+    { id: 3, name: 'Jane Smith', city: 'Dubai', country: 'UAE', email: 'janesmith@gmail.com', experience: '8 years', location: 'Dubai', jobReview: '5 stars', status: 'Active', skills: ['Creativity', 'Critical Thinking', 'MS background'], portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background','Highly focused person with MS background'], image: user },
+    { id: 4, name: 'Lisa Ray', city: 'Dubai', country: 'UAE', email: 'lisaray@gmail.com', experience: '6 years', location: 'Dubai', jobReview: '5 stars', status: 'Active', skills: ['Leadership', 'Communication'],  portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background','Highly focused person with MS background'], image: person },
+    { id: 5, name: 'Mark Jones', city: 'Abu Dhabi', country: 'UAE', email: 'markjones@gmail.com', experience: '7 years', location: 'Abu Dhabi', jobReview: '5 stars', status: 'Active', skills: ['Creativity', 'Teamwork'],  portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background','Highly focused person with MS background'], image: user },
+    { id: 6, name: 'Sarah Connor', city: 'Halain', country: 'UAE', email: 'sarahconnor@gmail.com', experience: '10 years', location: 'Halain', jobReview: '5 stars', status: 'Active', skills: ['Problem Solving', 'Leadership'],  portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background','Highly focused person with MS background'], image: person },
 ];
 
 const Guides = () => {
@@ -241,7 +241,7 @@ const Guides = () => {
                                 <h3 className="font-semibold mb-2">Skills</h3>
                                 <ul className="list-disc pl-5">
                                     {selectedAgent.skills.map((skill, index) => (
-                                        <li key={index}>{skill}</li>
+                                        <li className='text-[13px]' key={index}>{skill}</li>
                                     ))}
                                 </ul>
                             </div>
@@ -251,7 +251,7 @@ const Guides = () => {
                                 <h3 className="font-semibold mb-2">Portfolio</h3>
                                 <ul className="list-disc pl-5">
                                     {selectedAgent.portfolio.map((item, index) => (
-                                        <li key={index}>{item}</li>
+                                        <li className='text-[13px]' key={index}>{item}</li>
                                     ))}
                                 </ul>
                             </div>
