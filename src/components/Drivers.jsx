@@ -59,8 +59,6 @@ const Drivers = () => {
                         </table>
                     </div>
                 </div>
-
-                {/* Right side: Selected Agent Details */}
                 <div className="lg:w-1/3">
                     {selectedAgent && (
                         <div className="bg-white rounded-lg border border-black shadow p-6">
