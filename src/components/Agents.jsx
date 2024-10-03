@@ -5,21 +5,23 @@ import person from '../assets/img/person.png';
 import Header from './Header';
 
 const agentsData = [
-    { id: 1, name: 'Comela Swan', city: 'Abu Dhabi', country: 'UAE', email: 'comelaswan@gmail.com', experience: '5 years', location: 'Abu Dhabi', jobReview: '5 stars', status: 'Active', skills: ['MS background', 'Problem Solving', 'Communication', 'Teamwork'], portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background','Highly focused person with MS background'], image: person },
+    { id: 1, name: 'Comela Swan', city: 'Abu Dhabi', country: 'UAE', email: 'comelaswan@gmail.com', experience: '5 years', location: 'Abu Dhabi', jobReview: '5 stars', status: 'Active', skills: ['MS background', 'Problem Solving', 'Communication', 'Teamwork'], portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background'], image: person },
     { id: 2, name: 'John Doe', city: 'Halain', country: 'UAE', email: 'johndoe@gmail.com', experience: '3 years', location: 'Halain', jobReview: '4 stars', status: 'Active', skills: ['Time Management', 'Leadership', 'MS background'], portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background'], image: user },
     { id: 3, name: 'Jane Smith', city: 'Dubai', country: 'UAE', email: 'janesmith@gmail.com', experience: '8 years', location: 'Dubai', jobReview: '5 stars', status: 'Active', skills: ['Creativity', 'Critical Thinking', 'MS background'], portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background'], image: user },
     { id: 4, name: 'Lisa Ray', city: 'Dubai', country: 'UAE', email: 'lisaray@gmail.com', experience: '6 years', location: 'Dubai', jobReview: '5 stars', status: 'Active', skills: ['Leadership', 'Communication'], portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background'], image: person },
-    { id: 5, name: 'Mark Jones', city: 'Abu Dhabi', country: 'UAE', email: 'markjones@gmail.com', experience: '7 years', location: 'Abu Dhabi', jobReview: '5 stars', status: 'Active', skills: ['Creativity', 'Teamwork'], portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background','Highly focused person with MS background'], image: user },
-    { id: 6, name: 'Sarah Connor', city: 'Halain', country: 'UAE', email: 'sarahconnor@gmail.com', experience: '10 years', location: 'Halain', jobReview: '5 stars', status: 'Active', skills: ['Problem Solving', 'Leadership'], portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background','Highly focused person with MS background','Highly focused person with MS background'], image: person },
+    { id: 5, name: 'Mark Jones', city: 'Abu Dhabi', country: 'UAE', email: 'markjones@gmail.com', experience: '7 years', location: 'Abu Dhabi', jobReview: '5 stars', status: 'Active', skills: ['Creativity', 'Teamwork'], portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background'], image: user },
+    { id: 6, name: 'Sarah Connor', city: 'Halain', country: 'UAE', email: 'sarahconnor@gmail.com', experience: '10 years', location: 'Halain', jobReview: '5 stars', status: 'Active', skills: ['Problem Solving', 'Leadership'], portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background'], image: person },
 ];
 
 const Agents = () => {
     const [selectedAgent, setSelectedAgent] = useState(agentsData[0]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleRowClick = (agent) => {
         setSelectedAgent(agent);
+        setIsModalOpen(true)
     };
-
+    
     return (
         <div className="container p-4 sm:p-6 md:p-8">
             <Header />
@@ -36,20 +38,20 @@ const Agents = () => {
                         <table className="w-full">
                             <thead className="bg-[#E8F5FE]">
                                 <tr>
-                                    <th className="px-4 py-2 text-left">Name</th>
-                                    <th className="px-4 py-2 text-left">City</th>
-                                    <th className="px-4 py-2 text-left">Country</th>
+                                    <th className="px-4 py-2 text-left text-[17px]">Name</th>
+                                    <th className="px-4 py-2 text-left text-[17px]">City</th>
+                                    <th className="px-4 py-2 text-left text-[17px]">Country</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {agentsData.map((agent) => (
                                     <tr key={agent.id} className="border-b hover:bg-gray-100 cursor-pointer" onClick={() => handleRowClick(agent)}>
                                         <td className="px-4 py-2 flex items-center">
-                                            <img src={agent.image} alt={agent.name} className="w-8 h-8 rounded-full mr-2" />
+                                            <img src={agent.image} alt={agent.name} className="w-8 h-8 rounded-full mr-2 text[17px]" />
                                             {agent.name}
                                         </td>
-                                        <td className="px-4 py-2">{agent.city}</td>
-                                        <td className="px-4 py-2">{agent.country}</td>
+                                        <td className="px-4 py-2 text[17px]">{agent.city}</td>
+                                        <td className="px-4 py-2 text[17px]">{agent.country}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -57,13 +59,13 @@ const Agents = () => {
                     </div>
                 </div>
                 <div className="lg:w-1/3">
-                    {selectedAgent && (
+                    {isModalOpen && selectedAgent && (
                         <div className="bg-white rounded-lg border border-black shadow p-6">
                             <div className="flex flex-col items-center mb-4">
                                 <img src={selectedAgent.image} alt={selectedAgent.name} className="w-32 h-32 rounded-full mb-2" />
-                                <h2 className="text-xl font-semibold">{selectedAgent.name}</h2>
-                                <p className="text-gray-600">{selectedAgent.location}</p>
-                                <p className="text-gray-500">{selectedAgent.email}</p>
+                                <h2 className=" text-[17px] font-semibold">{selectedAgent.name}</h2>
+                                <p className="text-gray-600 text-[17px]">{selectedAgent.location}</p>
+                                <p className="text-gray-500 text-[17px]">{selectedAgent.email}</p>
                                 <div className="flex mt-2">
                                     <button className="mr-2 p-2 bg-blue-100 rounded-full">
                                         <FaEnvelope size={20} className="text-blue-500" />
@@ -74,33 +76,33 @@ const Agents = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4 mb-6">
+                            <div className="grid grid-cols-2 gap-4 mb-6 bg-[#E8F5FE] p-4">
                                 <div className="flex items-center">
                                     <FaBriefcase size={20} className="mr-2 text-gray-500" />
                                     <div>
-                                        <p className="text-sm text-gray-600">Experience</p>
-                                        <p className="font-semibold">{selectedAgent.experience}</p>
+                                        <p className="text-[14px] font-semibold text-gray-600">Experience</p>
+                                        <p className="text-[12px]">{selectedAgent.experience}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center">
                                     <FaMapMarkerAlt size={20} className="mr-2 text-gray-500" />
                                     <div>
-                                        <p className="text-sm text-gray-600">Location</p>
-                                        <p className="font-semibold">{selectedAgent.location}</p>
+                                        <p className="text-[14px] font-semibold text-gray-600">Location</p>
+                                        <p className="text-[12px]">{selectedAgent.location}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center">
                                     <FaClock size={20} className="mr-2 text-gray-500" />
                                     <div>
-                                        <p className="text-sm text-gray-600">Job review</p>
-                                        <p className="font-semibold">{selectedAgent.jobReview}</p>
+                                        <p className="text-[14px] font-semibold text-gray-600">Job review</p>
+                                        <p className="text-[12px]">{selectedAgent.jobReview}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center">
                                     <FaUserCheck size={20} className="mr-2 text-gray-500" />
                                     <div>
-                                        <p className="text-sm text-gray-600">Status</p>
-                                        <p className="font-semibold">{selectedAgent.status}</p>
+                                        <p className="text-[14px] font-semibold text-gray-600">Status</p>
+                                        <p className="text-[12px]">{selectedAgent.status}</p>
                                     </div>
                                 </div>
                             </div>
