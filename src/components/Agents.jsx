@@ -4,7 +4,6 @@ import user from '../assets/img/users.png';
 import person from '../assets/img/person.png';
 import Header from './Header';
 
-// Sample data with at least 6 employees
 const agentsData = [
     { id: 1, name: 'Comela Swan', city: 'Abu Dhabi', country: 'UAE', email: 'comelaswan@gmail.com', experience: '5 years', location: 'Abu Dhabi', jobReview: '5 stars', status: 'Active', skills: ['MS background', 'Problem Solving', 'Communication', 'Teamwork'], portfolio: ['Project A', 'Project B'], image: person },
     { id: 2, name: 'John Doe', city: 'Halain', country: 'UAE', email: 'johndoe@gmail.com', experience: '3 years', location: 'Halain', jobReview: '4 stars', status: 'Active', skills: ['Time Management', 'Leadership', 'MS background'], portfolio: ['Project X', 'Project Y'], image: user },
@@ -15,10 +14,8 @@ const agentsData = [
 ];
 
 const Agents = () => {
-    // State to track the selected agent
     const [selectedAgent, setSelectedAgent] = useState(agentsData[0]);
 
-    // Function to handle row click
     const handleRowClick = (agent) => {
         setSelectedAgent(agent);
     };
@@ -59,8 +56,6 @@ const Agents = () => {
                         </table>
                     </div>
                 </div>
-
-                {/* Right side: Selected Agent Details */}
                 <div className="lg:w-1/3">
                     {selectedAgent && (
                         <div className="bg-white rounded-lg border border-black shadow p-6">
