@@ -63,11 +63,11 @@ const Guides = () => {
                 <div className="lg:w-1/3">
                     {selectedAgent && (
                         <div className="bg-white rounded-lg border border-black shadow p-6">
-                            <div className="flex flex-col items-center mb-4">
+                           <div className="flex flex-col items-center mb-4">
                                 <img src={selectedAgent.image} alt={selectedAgent.name} className="w-32 h-32 rounded-full mb-2" />
-                                <h2 className="text-xl font-semibold">{selectedAgent.name}</h2>
-                                <p className="text-gray-600">{selectedAgent.location}</p>
-                                <p className="text-gray-500">{selectedAgent.email}</p>
+                                <h2 className=" text-[17px] font-semibold">{selectedAgent.name}</h2>
+                                <p className="text-gray-600 text-[17px]">{selectedAgent.location}</p>
+                                <p className="text-gray-500 text-[17px]">{selectedAgent.email}</p>
                                 <div className="flex mt-2">
                                     <button className="mr-2 p-2 bg-blue-100 rounded-full">
                                         <FaEnvelope size={20} className="text-blue-500" />
@@ -78,33 +78,33 @@ const Guides = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4 mb-6">
+                            <div className="grid grid-cols-2 gap-4 mb-6 bg-[#E8F5FE] p-4">
                                 <div className="flex items-center">
                                     <FaBriefcase size={20} className="mr-2 text-gray-500" />
                                     <div>
-                                        <p className="text-sm text-gray-600">Experience</p>
-                                        <p className="font-semibold">{selectedAgent.experience}</p>
+                                        <p className="text-[14px] font-semibold text-gray-600">Experience</p>
+                                        <p className="text-[12px]">{selectedAgent.experience}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center">
                                     <FaMapMarkerAlt size={20} className="mr-2 text-gray-500" />
                                     <div>
-                                        <p className="text-sm text-gray-600">Location</p>
-                                        <p className="font-semibold">{selectedAgent.location}</p>
+                                        <p className="text-[14px] font-semibold text-gray-600">Location</p>
+                                        <p className="text-[12px]">{selectedAgent.location}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center">
                                     <FaClock size={20} className="mr-2 text-gray-500" />
                                     <div>
-                                        <p className="text-sm text-gray-600">Job review</p>
-                                        <p className="font-semibold">{selectedAgent.jobReview}</p>
+                                        <p className="text-[14px] font-semibold text-gray-600">Job review</p>
+                                        <p className="text-[12px]">{selectedAgent.jobReview}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center">
                                     <FaUserCheck size={20} className="mr-2 text-gray-500" />
                                     <div>
-                                        <p className="text-sm text-gray-600">Status</p>
-                                        <p className="font-semibold">{selectedAgent.status}</p>
+                                        <p className="text-[14px] font-semibold text-gray-600">Status</p>
+                                        <p className="text-[12px]">{selectedAgent.status}</p>
                                     </div>
                                 </div>
                             </div>
