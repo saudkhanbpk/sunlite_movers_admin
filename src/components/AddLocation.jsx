@@ -52,7 +52,8 @@ const AddLocation = () => {
     };
 
     return (
-        <div className="max-w-md p-6 md:ml-10 bg-[#E8F5FE] rounded-lg shadow-md">
+        <div className='flex justify-center items-center w-full min-h-screen'>
+        <div className="md:w-[50%] p-6 md:ml-10 bg-[#E8F5FE] rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-6 text-center">Add New Location</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="flex justify-center items-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 relative">
@@ -82,6 +83,7 @@ const AddLocation = () => {
                     Create now
                 </button>
             </form>
+        </div>
         </div>
     );
 };

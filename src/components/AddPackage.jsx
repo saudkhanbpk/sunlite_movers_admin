@@ -73,6 +73,7 @@ const AddPackage = () => {
     };
 
     return (
+        <div className='flex justify-center items-center'>
         <div className="max-w-md p-6 md:ml-10 bg-[#E8F5FE] rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-6 text-center">Create New Package</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -163,6 +164,7 @@ const AddPackage = () => {
                     Create now
                 </button>
             </form>
+        </div>
         </div>
     );
 };
