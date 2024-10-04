@@ -32,7 +32,7 @@ const Guides = () => {
     return (
         <div className="container p-4 sm:p-6 md:p-8">
             <Header />
-            <div className="flex justify-center">
+            <div className="flex justify-end">
                 <button className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300">
                     + Add Guide
                 </button>
@@ -68,7 +68,7 @@ const Guides = () => {
             {/* Modal for showing agent details */}
             {isModalOpen && selectedAgent && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                    <div className="bg-white rounded-lg border border-black shadow p-6 w-full h-[500px] overflow-y-scroll  max-w-sm">
+                    <div className="bg-white rounded-lg border border-black shadow p-6 w-full   max-w-sm">
                         <div className="flex justify-end mb-4">
                             <button onClick={closeModal} className="text-gray-500  text-3xl hover:text-black">&times;</button>
                         </div>
