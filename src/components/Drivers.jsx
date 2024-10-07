@@ -3,6 +3,7 @@ import { FaEnvelope, FaPhone, FaBriefcase, FaMapMarkerAlt, FaClock, FaUserCheck 
 import user from '../assets/img/users.png';
 import person from '../assets/img/person.png';
 import Header from './Header';
+import { useNavigate } from 'react-router-dom';
 
 // Sample data with at least 6 employees
 const agentsData = [
@@ -15,31 +16,31 @@ const agentsData = [
 ];
 
 const Drivers = () => {
-    // State to track the selected agent and modal visibility
+    const navigate = useNavigate();
     const [selectedAgent, setSelectedAgent] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Function to handle row click and open modal
     const handleRowClick = (agent) => {
         setSelectedAgent(agent);
         setIsModalOpen(true);
     };
 
-    // Function to close modal
     const closeModal = () => {
         setIsModalOpen(false);
     };
 
+    const handleNavigate = () => {
+        navigate('/add_drivers')
+    }
     return (
         <div className="container p-4 sm:p-6 md:p-8">
             <Header />
             <div className="flex justify-end">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300">
+                <button onClick={handleNavigate} className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300">
                     + Add Driver
                 </button>
             </div>
 
-            {/* Full-width Agents Table */}
             <div className="w-full pt-5">
                 <div className="bg-white border border-black rounded-lg shadow overflow-hidden">
                     <table className="w-full">
@@ -66,7 +67,6 @@ const Drivers = () => {
                 </div>
             </div>
 
-            {/* Modal for showing agent details */}
             {isModalOpen && selectedAgent && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                     <div className="bg-white rounded-lg border border-black shadow p-6 w-full max-w-sm">
@@ -119,7 +119,6 @@ const Drivers = () => {
                             </div>
                         </div>
 
-                        {/* Skills Section */}
                         <div>
                             <h3 className="font-semibold mb-2">Car description</h3>
                             <ul className="list-disc pl-5">
@@ -129,7 +128,6 @@ const Drivers = () => {
                             </ul>
                         </div>
 
-                        {/* Portfolio Section */}
                         <div>
                             <h3 className="font-semibold mb-2">Portfolio</h3>
                             <ul className="list-disc pl-5">

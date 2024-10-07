@@ -3,7 +3,7 @@ import axios from 'axios';
 import { BsUpload } from 'react-icons/bs';
 import { BaseUrl } from '../BaseUrl';
 import { FaSpinner } from 'react-icons/fa';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const AddLocation = () => {
     const [formData, setFormData] = useState({
@@ -63,7 +63,7 @@ const AddLocation = () => {
     };
 
     return (
-        <div className='flex justify-center items-center w-full min-h-screen'>
+        <div className='flex items-center w-full min-h-screen'>
             <div className="md:w-[50%] p-6 md:ml-10 bg-[#E8F5FE] rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">Add New Location</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -106,7 +106,6 @@ const AddLocation = () => {
                     </button>
                 </form>
             </div>
-            <ToastContainer />
         </div>
     );
 };

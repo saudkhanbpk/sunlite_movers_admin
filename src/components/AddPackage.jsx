@@ -4,7 +4,7 @@ import { BsUpload } from 'react-icons/bs';
 import { BaseUrl } from '../BaseUrl';
 import { useNavigate } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AddPackage = () => {
@@ -38,10 +38,7 @@ const AddPackage = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+        setFormData(prevState => ({...prevState,[name]: value}));
     };
 
     const handleFileChange = (e) => {
@@ -86,7 +83,7 @@ const AddPackage = () => {
     };
 
     return (
-        <div className='flex justify-center items-center'>
+        <div className='flex items-center'>
             <div className="max-w-md p-6 md:ml-10 bg-[#E8F5FE] rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">Create New Package</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -188,7 +185,6 @@ const AddPackage = () => {
                     </button>
                 </form>
             </div>
-            <ToastContainer />
         </div>
     );
 };
