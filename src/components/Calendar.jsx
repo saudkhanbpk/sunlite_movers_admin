@@ -1,82 +1,59 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css'; // Import CSS for BigCalendar
 
-const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+// Set up the localizer using moment.js
+const localizer = momentLocalizer(moment);
+
+const events = [
+  // Example event data
+  {
+    id: 0,
+    title: 'Board Meeting',
+    start: new Date(2024, 9, 3, 9, 0, 0),
+    end: new Date(2024, 9, 3, 12, 0, 0),
+  },
+  {
+    id: 1,
+    title: 'Team Lunch',
+    start: new Date(2024, 9, 7, 12, 0, 0),
+    end: new Date(2024, 9, 7, 13, 0, 0),
+  },
+];
 
 const Calendar = () => {
-  const [currentDate, setCurrentDate] = useState(new Date(2024, 2, 1)); // March 2024
+  const [view, setView] = useState('month');
+  const [date, setDate] = useState(new Date());
 
-  const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
-  const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
-
-  const prevMonth = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+  const handleViewChange = (newView) => {
+    setView(newView);
   };
 
-  const nextMonth = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
-  };
-
-  const renderCells = () => {
-    const cells = [];
-    let day = 1;
-
-    for (let i = 0; i < 6; i++) {
-      const row = [];
-      for (let j = 0; j < 7; j++) {
-        if (i === 0 && j < firstDayOfMonth) {
-          row.push(<td key={`empty-${j}`} className="p-2"></td>);
-        } else if (day > daysInMonth) {
-          row.push(<td key={`empty-end-${j}`} className="p-2"></td>);
-        } else {
-          const currentDay = day;
-          row.push(
-            <td key={day} className="p-2 border-t">
-              <div className="flex flex-col h-24">
-                <span className="text-sm">{currentDay}</span>
-                {currentDay === 15 && (
-                  <div className="text-xs">
-                    <div className="bg-blue-100 p-1 mb-1">Task due at 3 PM</div>
-                    {/* <div className="bg-red-100 p-1 mb-1">Meeting with team</div>
-                    <div className="bg-green-100 p-1">Call with client</div> */}
-                  </div>
-                )}
-              </div>
-            </td>
-          );
-          day++;
-        }
-      }
-      cells.push(<tr key={i}>{row}</tr>);
-      if (day > daysInMonth) break;
-    }
-    return cells;
+  const handleNavigate = (newDate) => {
+    setDate(newDate);
   };
 
   return (
-    <div className="container mx-auto p-4 md:p-8">
+    <div className="p-4 max-w-6xl mx-auto  rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">{MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}</h2>
-        <div className="flex space-x-2">
-          <button onClick={prevMonth} className="p-2 rounded-full hover:bg-gray-200">
-            <ChevronLeft size={24} />
-          </button>
-          <button onClick={nextMonth} className="p-2 rounded-full hover:bg-gray-200">
-            <ChevronRight size={24} />
-          </button>
-        </div>
+        <h2 className="text-2xl font-bold">
+          {moment(date).format('MMMM YYYY')}
+        </h2>
       </div>
-      <table className="w-full border-collapse">
-        <thead>
-          <tr>
-            {DAYS.map(day => (
-              <th key={day} className="p-2 border-b">{day}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>{renderCells()}</tbody>
-      </table>
+
+      <BigCalendar
+        localizer={localizer}
+        events={events}
+        defaultView={view}
+        views={['month', 'week', 'day']}
+        startAccessor="start"
+        endAccessor="end"
+        date={date}
+        onNavigate={handleNavigate}
+        onView={handleViewChange}
+        style={{ height: 600 }}
+      />
     </div>
   );
 };
