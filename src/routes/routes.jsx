@@ -12,6 +12,11 @@ import Packages from '../components/Packages'
 import AddPackage from '../components/AddPackage'
 import AddLocation from '../components/AddLocation'
 import Calendar from '../components/Calendar'
+import AddNewAgents from '../components/AddNewAgents'
+import AddNewGuides from '../components/AddNewGuides'
+import AddNewDrivers from '../components/AddNewDrivers'
+import PackagesDetails from '../components/PackagesDetails'
+import UpdatePackage from '../components/UpdatePackage'
 
 const AppRoutes = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +32,6 @@ const AppRoutes = () => {
                 <div className='flex-1 h-screen overflow-y-scroll'>
                     <Routes>
                         <Route path='/' element={<Dashboard />} />
-                        <Route path='/packages' element={<Packages />} />
                         <Route path='/booking' element={<Booking />} />
                         <Route path='/calendar' element={<Calendar />} />
                         <Route path='/agents' element={<Agents />} />
@@ -35,6 +39,12 @@ const AppRoutes = () => {
                         <Route path='/drivers' element={<Drivers />} />
                         <Route path='/add_package' element={<AddPackage />} />
                         <Route path='/location' element={<AddLocation />} />
+                        <Route path='/add_agent' element={<AddNewAgents />} />
+                        <Route path='/add_guides' element={<AddNewGuides />} />
+                        <Route path='/add_drivers' element={<AddNewDrivers />} />
+                        <Route path='/packages' element={<Packages />} />
+                        <Route path='/package-details' element={<PackagesDetails />} />
+                        <Route path='/update-package' element={<UpdatePackage />} />
                     </Routes>
                 </div>
             </div>

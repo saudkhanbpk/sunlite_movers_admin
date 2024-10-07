@@ -3,6 +3,7 @@ import { FaEnvelope, FaPhone, FaBriefcase, FaMapMarkerAlt, FaClock, FaUserCheck 
 import user from '../assets/img/users.png';
 import person from '../assets/img/person.png';
 import Header from './Header';
+import { useNavigate } from 'react-router-dom';
 
 const agentsData = [
     { id: 1, name: 'Comela Swan', city: 'Abu Dhabi', country: 'UAE', email: 'comelaswan@gmail.com', experience: '5 years', location: 'Abu Dhabi', jobReview: '5 stars', status: 'Active', skills: ['MS background', 'Problem Solving', 'Communication', 'Teamwork'], portfolio: ['Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background', 'Highly focused person with MS background'], image: person },
@@ -14,26 +15,27 @@ const agentsData = [
 ];
 
 const Agents = () => {
-    // State to track the selected agent and modal visibility
+    const navigate = useNavigate()
     const [selectedAgent, setSelectedAgent] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Function to handle row click and open modal
     const handleRowClick = (agent) => {
         setSelectedAgent(agent);
         setIsModalOpen(true);
     };
 
-    // Function to close modal
     const closeModal = () => {
         setIsModalOpen(false);
     };
-    
+    const handleNavigate = () => {
+        navigate('/add_agent')
+    }
+
     return (
         <div className="container p-4 sm:p-6 md:p-8">
             <Header />
             <div className="flex justify-end">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300">
+                <button onClick={handleNavigate} className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300">
                     + Add Agent
                 </button>
             </div>
