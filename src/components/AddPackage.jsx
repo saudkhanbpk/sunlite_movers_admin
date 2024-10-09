@@ -4,7 +4,7 @@ import { BsUpload } from 'react-icons/bs';
 import { BaseUrl } from '../BaseUrl';
 import { useNavigate } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AddPackage = () => {
@@ -38,7 +38,7 @@ const AddPackage = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevState => ({...prevState,[name]: value}));
+        setFormData(prevState => ({ ...prevState, [name]: value }));
     };
 
     const handleFileChange = (e) => {
@@ -96,7 +96,7 @@ const AddPackage = () => {
                             type="file"
                             className="absolute inset-0 opacity-0 cursor-pointer"
                             accept="image/*"
-                            onChange={handleFileChange} 
+                            onChange={handleFileChange}
                         />
                     </div>
                     {fileName && (
@@ -129,7 +129,7 @@ const AddPackage = () => {
                     <input
                         type="text"
                         name="destination"
-                        value={formData.tourDestination}
+                        value={formData.destination}
                         onChange={handleChange}
                         placeholder="Tour destination"
                         className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
