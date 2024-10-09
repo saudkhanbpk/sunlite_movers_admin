@@ -83,7 +83,7 @@ const AddPackage = () => {
     };
 
     return (
-        <div className='flex items-center'>
+        <div className='flex items-center justify-center'>
             <div className="max-w-md p-6 md:ml-10 bg-[#E8F5FE] rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">Create New Package</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -96,7 +96,7 @@ const AddPackage = () => {
                             type="file"
                             className="absolute inset-0 opacity-0 cursor-pointer"
                             accept="image/*"
-                            onChange={handleFileChange} // Handle file selection
+                            onChange={handleFileChange} 
                         />
                     </div>
                     {fileName && (
