@@ -1,7 +1,7 @@
 import React from 'react';
 import { FiSearch, FiBell } from 'react-icons/fi';
 import { useLocation } from 'react-router-dom';
-
+import user from '../assets/img/sam.jpg'
 const Header = () => {
     const location = useLocation();
 
@@ -22,7 +22,7 @@ const Header = () => {
             case '/drivers':
                 return 'DRIVERS';
             case '/calender':
-                    return 'Calender';
+                return 'Calender';
             default:
                 return 'Dashboard';
         }
@@ -43,7 +43,9 @@ const Header = () => {
                 <button className="p-2 rounded-full bg-gray-200 mr-4">
                     <FiBell size={20} />
                 </button>
-                <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+                <div className="w-10 h-10 bg-gray-300 rounded-full">
+                    <img className='w-10 h-10 rounded-full' src={user} />
+                </div>
             </div>
         </div>
     );

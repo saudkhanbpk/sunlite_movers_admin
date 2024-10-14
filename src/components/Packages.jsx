@@ -8,18 +8,18 @@ import { BaseUrl } from '../BaseUrl';
 function Packages() {
     const navigate = useNavigate();
     const [packages, setPackages] = useState([]);
-    const [loading, setLoading] = useState(true); // Loading state
+    const [loading, setLoading] = useState(true);
+    const [showFullDescription, setShowFullDescription] = useState({});
 
     useEffect(() => {
         const fetchPackages = async () => {
             try {
                 const response = await axios.get(`${BaseUrl}/api/getpackages`);
                 setPackages(response.data.packages);
-                console.log('res', response);
             } catch (error) {
                 console.log(error);
             } finally {
-                setLoading(false); // Set loading to false after data is fetched
+                setLoading(false);
             }
         };
         fetchPackages();
@@ -31,6 +31,18 @@ function Packages() {
 
     const handlePackageClick = (pkg) => {
         navigate('/package-details', { state: pkg });
+    };
+
+    const toggleDescription = (id) => {
+        setShowFullDescription((prev) => ({
+            ...prev,
+            [id]: !prev[id]
+        }));
+    };
+
+    const getShortDescription = (description) => {
+        const words = description.split(' ');
+        return words.length > 20 ? words.slice(0, 20).join(' ') + '...' : description;
     };
 
     return (
@@ -45,7 +57,6 @@ function Packages() {
                         </div>
                     </div>
 
-                    {/* Show loading spinner if loading is true */}
                     {loading ? (
                         <div className='flex justify-center items-center h-64'>
                             <div className="loader"></div>
@@ -55,25 +66,30 @@ function Packages() {
                             <div
                                 key={ind}
                                 className='w-full bg-gray-100 p-3 mt-2 rounded-xl md:flex gap-3'
-                                onClick={() => handlePackageClick(pkg)}
                             >
-                                <div>
-                                    <img src={pkg.image} alt='Future Museum Dubai' className='md:w-[300px] w-full rounded-md' />
+                                <div onClick={() => handlePackageClick(pkg)}>
+                                    <img src={pkg.image} alt='Package' className='md:w-[300px] w-full rounded-md cursor-pointer' />
                                 </div>
                                 <div className='md:w-[400px] p-2'>
                                     <h1 className='text-3xl font-bold'>{pkg.title}</h1>
-                                    <p className='mt-5 '>
-                                        {pkg.description}
+                                    <p className='mt-5'>
+                                        {showFullDescription[pkg.id] ? pkg.description : getShortDescription(pkg.description)}
                                     </p>
+                                    {pkg.description.split(' ').length > 20 && (
+                                        <button
+                                            onClick={() => toggleDescription(pkg.id)}
+                                            className='text-blue-500 mt-2'>
+                                            {showFullDescription[pkg.id] ? 'View Less' : 'View All'}
+                                        </button>
+                                    )}
                                     <div className='flex justify-between mt-8'>
-                                        <p>price<br /><a className='text-blue-500 font-bold text-xl'>${pkg.price}</a></p>
-                                        <p>duration <br />Hour {pkg.duration}</p>
+                                        <p>Price<br /><a className='text-blue-500 font-bold text-xl'>${pkg.price}</a></p>
+                                        <p>Duration<br />Hour {pkg.duration}</p>
                                     </div>
                                 </div>
                             </div>
                         ))
                     )}
-
                 </div>
 
                 <div className='md:w-1/3'>
@@ -88,7 +104,6 @@ function Packages() {
                                     <h4 className='font-bold'>{pkg.title}</h4>
                                     <p>{pkg.locationId?.name}</p>
                                     <div className='flex'>
-                                        {/* Render star ratings based on the package rating */}
                                         {Array(pkg.rating).fill().map((_, i) => (
                                             <MdOutlineStarPurple500 key={i} className='text-yellow-400' />
                                         ))}
@@ -103,7 +118,7 @@ function Packages() {
             <style jsx>{`
                 .loader {
                     border: 4px solid rgba(0, 0, 0, 0.1);
-                    border-left-color: #6AD2FF; /* Change to your preferred color */
+                    border-left-color: #6AD2FF;
                     border-radius: 50%;
                     width: 40px;
                     height: 40px;

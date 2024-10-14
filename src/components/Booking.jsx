@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
-const bookingsData = [
-    { name: 'Comela Swan', bookingCode: '592303', package: 'Desert Safari', duration: '7 Days', date: '02/11/2023', price: '$120', status: 'Confirmed' },
-    { name: 'Comela Swan', bookingCode: '592303', package: 'Desert Safari', duration: '7 Days', date: '02/11/2023', price: '$120', status: 'Pending' },
-    { name: 'Comela Swan', bookingCode: '592303', package: 'Desert Safari', duration: '7 Days', date: '02/11/2023', price: '$120', status: 'Confirmed' },
-    { name: 'Comela Swan', bookingCode: '592303', package: 'Desert Safari', duration: '7 Days', date: '02/11/2023', price: '$120', status: 'Confirmed' },
-    { name: 'Comela Swan', bookingCode: '592303', package: 'Desert Safari', duration: '7 Days', date: '02/11/2023', price: '$120', status: 'Pending' },
-    { name: 'Comela Swan', bookingCode: '592303', package: 'Desert Safari', duration: '7 Days', date: '02/11/2023', price: '$120', status: 'Confirmed' },
-    { name: 'Comela Swan', bookingCode: '592303', package: 'Desert Safari', duration: '7 Days', date: '02/11/2023', price: '$120', status: 'Confirmed' },
-    { name: 'Comela Swan', bookingCode: '592303', package: 'Desert Safari', duration: '7 Days', date: '02/11/2023', price: '$120', status: 'Confirmed' },
-];
+import axios from 'axios';
 
 const Booking = () => {
+    const [bookingData, setBookingData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchBooking = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/bookings');
+                setBookingData(response.data);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchBooking();
+    }, []);
+
     return (
         <div className="container mx-auto px-4 py-8">
             <Header />
@@ -29,22 +37,37 @@ const Booking = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {bookingsData.map((booking, index) => (
-                            <tr key={index} className="border-b">
-                                <td className="px-4 py-2">{booking.name}</td>
-                                <td className="px-4 py-2">{booking.bookingCode}</td>
-                                <td className="px-4 py-2">{booking.package}</td>
-                                <td className="px-4 py-2">{booking.duration}</td>
-                                <td className="px-4 py-2">{booking.date}</td>
-                                <td className="px-4 py-2">{booking.price}</td>
-                                <td className="px-4 py-2">
-                                    <span className={`px-2 py-1 rounded-full text-xs ${booking.status === 'Confirmed' ? 'bg-blue-500 text-white' : 'bg-blue-200 text-blue-800'
-                                        }`}>
-                                        {booking.status}
-                                    </span>
+                        {bookingData.length > 0 ? (
+                            bookingData.map((booking, index) => {
+                                const formattedDate = new Date(booking.date).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                });
+
+                                return (
+                                    <tr key={index} className="border-b">
+                                        <td className="px-4 py-2">{booking.name}</td>
+                                        <td className="px-4 py-2">{booking.bookingCode}</td>
+                                        <td className="px-4 py-2">{booking.title}</td>
+                                        <td className="px-4 py-2">{booking.duration}</td>
+                                        <td className="px-4 py-2">{formattedDate}</td>
+                                        <td className="px-4 py-2">{booking.price}</td>
+                                        <td className="px-4 py-2">
+                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${booking.status === 'Confirmed' ? 'bg-blue-500 text-white' : 'bg-blue-200 text-blue-800'}`}>
+                                                {booking.status}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        ) : (
+                            <tr>
+                                <td colSpan="7" className="px-4 py-2 text-center">
+                                    No bookings available.
                                 </td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>
