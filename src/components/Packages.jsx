@@ -71,7 +71,7 @@ function Packages() {
                                     <img src={pkg.image} alt='Package' className='md:w-[300px] w-full rounded-md cursor-pointer' />
                                 </div>
                                 <div className='md:w-[400px] p-2'>
-                                    <h1 className='text-3xl font-bold'>{pkg.title}</h1>
+                                    <h1 className='text-2xl font-bold'>{pkg.title}</h1>
                                     <p className='mt-5'>
                                         {showFullDescription[pkg.id] ? pkg.description : getShortDescription(pkg.description)}
                                     </p>
@@ -101,7 +101,7 @@ function Packages() {
                                 className='flex gap-2 bg-white rounded-xl p-2 mb-2'>
                                 <img src={pkg.image} alt={pkg.title} className='w-24 h-16 object-cover rounded-xl' />
                                 <div>
-                                    <h4 className='font-bold'>{pkg.title}</h4>
+                                    <h4 className='font-[600] text-base'>{pkg.title}</h4>
                                     <p>{pkg.locationId?.name}</p>
                                     <div className='flex'>
                                         {Array(pkg.rating).fill().map((_, i) => (

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FiSearch, FiBell } from 'react-icons/fi';
 import { useLocation } from 'react-router-dom';
 import user from '../assets/img/sam.jpg'
-const Header = () => {
+const Header = ({ onSearch }) => {
     const location = useLocation();
+    const [searchTerm, setSearchTerm] = useState('');
 
     const getTitle = () => {
         switch (location.pathname) {
@@ -26,6 +27,13 @@ const Header = () => {
             default:
                 return 'Dashboard';
         }
+
+    };
+
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+        onSearch(value); // Pass the search term to the parent component
     };
 
     return (
@@ -36,6 +44,8 @@ const Header = () => {
                     <input
                         type="text"
                         placeholder="Search"
+                        value={searchTerm} // Bind the local search term state
+                        onChange={handleSearchChange} // Handle search input changes
                         className="w-full md:w-64 pl-10 pr-4 py-2 rounded-full border focus:outline-none focus:border-blue-500"
                     />
                     <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />

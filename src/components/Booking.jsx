@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import axios from 'axios';
-
+import { BaseUrl } from '../BaseUrl';
+import { toast } from 'react-toastify';
+import { FaSpinner } from 'react-icons/fa';
 const Booking = () => {
     const [bookingData, setBookingData] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const [searchTerm, setSearchTerm] = useState('');
+    const [loadingBooking, setLoadingBooking] = useState(null);
     useEffect(() => {
         const fetchBooking = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/bookings');
+                const response = await axios.get(`${BaseUrl}/api/bookings`);
                 setBookingData(response.data);
             } catch (error) {
                 console.log(error);
@@ -20,11 +23,43 @@ const Booking = () => {
         fetchBooking();
     }, []);
 
+    const updateBookingStatus = async (bookingCode, newStatus) => {
+        setLoadingBooking(bookingCode);
+        try {
+            await axios.put(`${BaseUrl}/api/updatebooking/${bookingCode}`, { status: newStatus.toLowerCase() });
+            console.log(`Status updated for booking ${bookingCode} to ${newStatus}`);
+            toast.success('Booking Status Updated')
+        } catch (error) {
+            console.error('Error updating status:', error);
+        } finally {
+            setLoadingBooking(null);
+        }
+    };
+
+    const handleStatusChange = (bookingCode, newStatus) => {
+        setBookingData((prevData) =>
+            prevData.map((booking) =>
+                booking.bookingCode === bookingCode ? { ...booking, status: newStatus } : booking
+            )
+        );
+
+        updateBookingStatus(bookingCode, newStatus);
+    };
+
+
+    const filteredBookings = bookingData.filter((booking) =>
+        booking.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        booking.bookingCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        booking.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        booking.price.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+        booking.duration.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div className="container mx-auto px-4 py-8">
-            <Header />
+            <Header onSearch={setSearchTerm} searchTerm={searchTerm} />
             <div className="overflow-x-auto bg-white rounded-lg shadow">
-                <table className="w-full table-auto">
+                <table className="w-full table-auto text-[15px]">
                     <thead className="bg-[#E8F5FE]">
                         <tr>
                             <th className="px-4 py-2 text-left">Name</th>
@@ -37,8 +72,8 @@ const Booking = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {bookingData.length > 0 ? (
-                            bookingData.map((booking, index) => {
+                        {filteredBookings.length > 0 ? (
+                            filteredBookings.map((booking) => {
                                 const formattedDate = new Date(booking.date).toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: '2-digit',
@@ -46,7 +81,7 @@ const Booking = () => {
                                 });
 
                                 return (
-                                    <tr key={index} className="border-b">
+                                    <tr key={booking._id} className="border-b">
                                         <td className="px-4 py-2">{booking.name}</td>
                                         <td className="px-4 py-2">{booking.bookingCode}</td>
                                         <td className="px-4 py-2">{booking.title}</td>
@@ -54,9 +89,22 @@ const Booking = () => {
                                         <td className="px-4 py-2">{formattedDate}</td>
                                         <td className="px-4 py-2">{booking.price}</td>
                                         <td className="px-4 py-2">
-                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${booking.status === 'Confirmed' ? 'bg-blue-500 text-white' : 'bg-blue-200 text-blue-800'}`}>
-                                                {booking.status}
-                                            </span>
+                                            {loadingBooking === booking.bookingCode ? (
+                                                <div className="text-blue-500">
+                                                    <FaSpinner className="animate-spin mr-2" />
+                                                </div>
+                                            ) : (
+                                                <select
+                                                    value={booking.status}
+                                                    onChange={(e) => handleStatusChange(booking.bookingCode, e.target.value)}
+                                                    className="border rounded px-2 py-1"
+                                                    disabled={loadingBooking !== null}
+                                                >
+                                                    <option value="pending">Pending</option>
+                                                    <option value="confirmed">Confirmed</option>
+                                                    <option value="rejected">Rejected</option>
+                                                </select>
+                                            )}
                                         </td>
                                     </tr>
                                 );
@@ -64,7 +112,7 @@ const Booking = () => {
                         ) : (
                             <tr>
                                 <td colSpan="7" className="px-4 py-2 text-center">
-                                    No bookings available.
+                                    No bookings found.
                                 </td>
                             </tr>
                         )}

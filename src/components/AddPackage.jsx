@@ -23,6 +23,7 @@ const AddPackage = () => {
     const [locations, setLocations] = useState([]);
     const [loading, setLoading] = useState(false);
     const [fileName, setFileName] = useState('');
+    
     useEffect(() => {
         const fetchLocations = async () => {
             try {

@@ -51,7 +51,7 @@ const PackagesDetails = () => {
                 </button>
             </div>
 
-            <h1 className='text-3xl font-bold'>{pkg.title}</h1>
+            <h1 className='text-2xl font-bold'>{pkg.title}</h1>
             <img src={pkg.image} alt={pkg.title} className='w-full rounded-xl pt-6' />
             <p className='mt-5'>{pkg.description}</p>
             <div className='flex justify-between mt-8'>
