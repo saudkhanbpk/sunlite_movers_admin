@@ -17,14 +17,14 @@ const AddNewGuides = () => {
         portfolio: [], // Changed to array for multiple portfolio entries
         experience: '',
         skills: [], // Array for skills
-        isActive: false,
+        status: false,
     });
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileName, setFileName] = useState('');
     const [loading, setLoading] = useState(false);
     const [skillInput, setSkillInput] = useState('');
     const [portfolioInput, setPortfolioInput] = useState(''); // For portfolio input
-const navigate = useNavigate()
+    const navigate = useNavigate()
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setSelectedFile(file);
@@ -106,6 +106,7 @@ const navigate = useNavigate()
         formDataToSend.append('name', formData.name);
         formDataToSend.append('email', formData.email);
         formDataToSend.append('contact', formData.contact);
+        formDataToSend.append('status', formData.status);
         formDataToSend.append('city', formData.city);
         formDataToSend.append('location', formData.location);
         formDataToSend.append('experience', formData.experience);
@@ -127,7 +128,7 @@ const navigate = useNavigate()
         setLoading(true);
 
         try {
-            const response = await axios.post(`${BaseUrl}/api/employee`, formDataToSend, {
+            const response = await axios.post(`${BaseUrl}/api/addguides`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -146,14 +147,14 @@ const navigate = useNavigate()
                 portfolio: [],
                 experience: '',
                 skills: [],
-                isActive: false,
+                status: false,
             });
             setSelectedFile(null);
             setFileName('');
             setSkillInput('');
             setPortfolioInput('');
             navigate('/agents')
-        
+
         } catch (error) {
             console.error('Error creating agent:', error);
             toast.error('Error adding agent. Please try again.');
@@ -293,8 +294,8 @@ const navigate = useNavigate()
                     <div className="flex items-center">
                         <input
                             type="checkbox"
-                            name="isActive"
-                            checked={formData.isActive}
+                            name="status"
+                            checked={formData.status}
                             onChange={handleCheckboxChange}
                             className="mr-2"
                         />

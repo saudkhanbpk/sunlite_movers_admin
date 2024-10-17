@@ -16,15 +16,14 @@ const AddNewAgents = () => {
         location: '',
         portfolio: [], // Changed to array for multiple portfolio entries
         experience: '',
-        skills: [], // Array for skills
-        isActive: false,
+        status: false,
     });
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileName, setFileName] = useState('');
     const [loading, setLoading] = useState(false);
     const [skillInput, setSkillInput] = useState('');
     const [portfolioInput, setPortfolioInput] = useState(''); // For portfolio input
-const navigate = useNavigate()
+    const navigate = useNavigate()
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setSelectedFile(file);
@@ -47,20 +46,6 @@ const navigate = useNavigate()
         }));
     };
 
-    // Handle skill input
-    const handleSkillKeyPress = (e) => {
-        if (e.key === 'Enter' || e.key === ',') {
-            e.preventDefault();
-            const skill = skillInput.trim();
-            if (skill && !formData.skills.includes(skill)) {
-                setFormData(prevState => ({
-                    ...prevState,
-                    skills: [...prevState.skills, skill],
-                }));
-            }
-            setSkillInput(''); // Clear input after adding skill
-        }
-    };
 
     // Handle portfolio input
     const handlePortfolioKeyPress = (e) => {
@@ -77,13 +62,6 @@ const navigate = useNavigate()
         }
     };
 
-    // Remove a skill from the list
-    const removeSkill = (skillToRemove) => {
-        setFormData(prevState => ({
-            ...prevState,
-            skills: prevState.skills.filter(skill => skill !== skillToRemove)
-        }));
-    };
 
     // Remove a portfolio item from the list
     const removePortfolio = (portfolioToRemove) => {
@@ -97,7 +75,7 @@ const navigate = useNavigate()
         e.preventDefault();
 
         // Form validation
-        if (!formData.name || !formData.email || !formData.contact || !formData.city || !formData.location || !formData.skills.length || !formData.portfolio.length) {
+        if (!formData.name || !formData.email || !formData.contact || !formData.city || !formData.location || !formData.portfolio.length) {
             toast.error('Please fill all the required fields!');
             return;
         }
@@ -109,11 +87,9 @@ const navigate = useNavigate()
         formDataToSend.append('city', formData.city);
         formDataToSend.append('location', formData.location);
         formDataToSend.append('experience', formData.experience);
+        formDataToSend.append('status', formData.status);
 
-        // Append skills and portfolios arrays directly
-        formData.skills.forEach((skill, index) => {
-            formDataToSend.append(`skills[${index}]`, skill);
-        });
+
         formData.portfolio.forEach((item, index) => {
             formDataToSend.append(`portfolio[${index}]`, item);
         });
@@ -127,7 +103,7 @@ const navigate = useNavigate()
         setLoading(true);
 
         try {
-            const response = await axios.post(`${BaseUrl}/api/employee`, formDataToSend, {
+            const response = await axios.post(`${BaseUrl}/api/addagents`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -145,7 +121,6 @@ const navigate = useNavigate()
                 location: '',
                 portfolio: [],
                 experience: '',
-                skills: [],
                 isActive: false,
             });
             setSelectedFile(null);
@@ -153,7 +128,7 @@ const navigate = useNavigate()
             setSkillInput('');
             setPortfolioInput('');
             navigate('/agents')
-        
+
         } catch (error) {
             console.error('Error creating agent:', error);
             toast.error('Error adding agent. Please try again.');
@@ -264,37 +239,12 @@ const navigate = useNavigate()
                         </div>
                     </div>
 
-                    {/* Skill input */}
-                    <div className="w-full py-3">
-                        <input
-                            type="text"
-                            value={skillInput}
-                            onChange={(e) => setSkillInput(e.target.value)}
-                            onKeyPress={handleSkillKeyPress}
-                            placeholder="Skills (press enter to add)"
-                            className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <div className="mt-2 flex flex-wrap">
-                            {formData.skills.map((skill, index) => (
-                                <div key={index} className="bg-blue-200 text-blue-700 rounded-full px-3 py-1 mr-2 mb-2 flex items-center">
-                                    <span>{skill}</span>
-                                    <button
-                                        onClick={() => removeSkill(skill)}
-                                        className="ml-2 text-red-500"
-                                    >
-                                        &times;
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
                     {/* Active status */}
                     <div className="flex items-center">
                         <input
                             type="checkbox"
-                            name="isActive"
-                            checked={formData.isActive}
+                            name="status"
+                            checked={formData.status}
                             onChange={handleCheckboxChange}
                             className="mr-2"
                         />

@@ -14,17 +14,17 @@ const AddNewDrivers = () => {
         contact: '',
         city: '',
         location: '',
-        portfolio: [], // Changed to array for multiple portfolio entries
+        portfolio: [],
         experience: '',
-        skills: [], // Array for skills
-        isActive: false,
+        carDescription: [],
+        status: false,
     });
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileName, setFileName] = useState('');
     const [loading, setLoading] = useState(false);
     const [skillInput, setSkillInput] = useState('');
-    const [portfolioInput, setPortfolioInput] = useState(''); // For portfolio input
-const navigate = useNavigate()
+    const [portfolioInput, setPortfolioInput] = useState('');
+    const navigate = useNavigate()
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setSelectedFile(file);
@@ -47,22 +47,20 @@ const navigate = useNavigate()
         }));
     };
 
-    // Handle skill input
     const handleSkillKeyPress = (e) => {
         if (e.key === 'Enter' || e.key === ',') {
             e.preventDefault();
-            const skill = skillInput.trim();
-            if (skill && !formData.skills.includes(skill)) {
+            const desc = skillInput.trim();
+            if (desc && !formData.carDescription.includes(desc)) {
                 setFormData(prevState => ({
                     ...prevState,
-                    skills: [...prevState.skills, skill],
+                    carDescription: [...prevState.carDescription, desc],
                 }));
             }
-            setSkillInput(''); // Clear input after adding skill
+            setSkillInput('');
         }
     };
 
-    // Handle portfolio input
     const handlePortfolioKeyPress = (e) => {
         if (e.key === 'Enter' || e.key === ',') {
             e.preventDefault();
@@ -73,19 +71,17 @@ const navigate = useNavigate()
                     portfolio: [...prevState.portfolio, portfolioItem],
                 }));
             }
-            setPortfolioInput(''); // Clear input after adding portfolio item
+            setPortfolioInput('');
         }
     };
 
-    // Remove a skill from the list
     const removeSkill = (skillToRemove) => {
         setFormData(prevState => ({
             ...prevState,
-            skills: prevState.skills.filter(skill => skill !== skillToRemove)
+            carDescription: prevState.carDescription.filter(skill => skill !== skillToRemove)
         }));
     };
 
-    // Remove a portfolio item from the list
     const removePortfolio = (portfolioToRemove) => {
         setFormData(prevState => ({
             ...prevState,
@@ -96,8 +92,7 @@ const navigate = useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Form validation
-        if (!formData.name || !formData.email || !formData.contact || !formData.city || !formData.location || !formData.skills.length || !formData.portfolio.length) {
+        if (!formData.name || !formData.email || !formData.contact || !formData.city || !formData.location || !formData.carDescription.length || !formData.portfolio.length) {
             toast.error('Please fill all the required fields!');
             return;
         }
@@ -110,15 +105,14 @@ const navigate = useNavigate()
         formDataToSend.append('location', formData.location);
         formDataToSend.append('experience', formData.experience);
 
-        // Append skills and portfolios arrays directly
-        formData.skills.forEach((skill, index) => {
-            formDataToSend.append(`skills[${index}]`, skill);
+        formData.carDescription.forEach((skill, index) => {
+            formDataToSend.append(`carDescription[${index}]`, skill);
         });
         formData.portfolio.forEach((item, index) => {
             formDataToSend.append(`portfolio[${index}]`, item);
         });
 
-        formDataToSend.append('isActive', formData.isActive);
+        formDataToSend.append('status', formData.status);
 
         if (selectedFile) {
             formDataToSend.append('image', selectedFile);
@@ -127,7 +121,7 @@ const navigate = useNavigate()
         setLoading(true);
 
         try {
-            const response = await axios.post(`${BaseUrl}/api/employee`, formDataToSend, {
+            const response = await axios.post(`${BaseUrl}/api/adddrivers`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -136,7 +130,6 @@ const navigate = useNavigate()
             toast.success('Agent added successfully!');
             console.log('Agent created:', response.data);
 
-            // Reset form after successful submission
             setFormData({
                 name: '',
                 email: '',
@@ -145,15 +138,15 @@ const navigate = useNavigate()
                 location: '',
                 portfolio: [],
                 experience: '',
-                skills: [],
-                isActive: false,
+                carDescription: [],
+                status: false,
             });
             setSelectedFile(null);
             setFileName('');
             setSkillInput('');
             setPortfolioInput('');
-            navigate('/agents')
-        
+            navigate('/drivers')
+
         } catch (error) {
             console.error('Error creating agent:', error);
             toast.error('Error adding agent. Please try again.');
@@ -167,7 +160,6 @@ const navigate = useNavigate()
             <div className="max-w-md p-6 md:ml-10 bg-[#E8F5FE] rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">Add New Driver</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    {/* File upload */}
                     <div className="flex justify-center items-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 relative">
                         <div className="text-center">
                             <BsUpload className="mx-auto h-12 w-12 text-gray-400" />
@@ -184,7 +176,6 @@ const navigate = useNavigate()
                         <p className="text-sm text-gray-600 mt-2">Selected file: {fileName}</p>
                     )}
 
-                    {/* Other form fields */}
                     <input
                         type="text"
                         name="name"
@@ -239,7 +230,6 @@ const navigate = useNavigate()
                         className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
 
-                    {/* Portfolio input and tag-like feature */}
                     <div className="w-full py-3">
                         <input
                             type="text"
@@ -264,18 +254,17 @@ const navigate = useNavigate()
                         </div>
                     </div>
 
-                    {/* Skill input */}
                     <div className="w-full py-3">
                         <input
                             type="text"
                             value={skillInput}
                             onChange={(e) => setSkillInput(e.target.value)}
                             onKeyPress={handleSkillKeyPress}
-                            placeholder="Skills (press enter to add)"
+                            placeholder="Car Description (press enter to add)"
                             className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <div className="mt-2 flex flex-wrap">
-                            {formData.skills.map((skill, index) => (
+                            {formData.carDescription.map((skill, index) => (
                                 <div key={index} className="bg-blue-200 text-blue-700 rounded-full px-3 py-1 mr-2 mb-2 flex items-center">
                                     <span>{skill}</span>
                                     <button
@@ -289,19 +278,17 @@ const navigate = useNavigate()
                         </div>
                     </div>
 
-                    {/* Active status */}
                     <div className="flex items-center">
                         <input
                             type="checkbox"
-                            name="isActive"
-                            checked={formData.isActive}
+                            name="status"
+                            checked={formData.status}
                             onChange={handleCheckboxChange}
                             className="mr-2"
                         />
                         <label htmlFor="isActive" className="text-sm">Is Active</label>
                     </div>
 
-                    {/* Submit button */}
                     <button
                         type="submit"
                         className={`w-full py-3 mt-4 ${loading ? 'bg-gray-300' : 'bg-blue-500 hover:bg-blue-600'} text-white font-semibold rounded-md`}
