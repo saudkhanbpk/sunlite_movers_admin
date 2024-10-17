@@ -4,10 +4,10 @@ import { NavLink } from 'react-router-dom';
 import logo from '../assets/img/kkra_logo.png'
 const Sidebar = ({ isOpen }) => {
     return (
-        <div className="relative z-10 overflow-y-scroll">
+        <div className="relative z-10">
             <div className={`w-52 bg-[#E8F5FE] h-auto absolute md:relative ${isOpen ? 'block' : 'hidden md:block'}`}>
                 <div className="p-4 pt-7">
-                    <img src={logo} className='w-[150px] h-[150px' />
+                    <img src={logo} className='w-[150px]' />
                 </div>
                 <nav className="mt-4">
                     <NavLink
