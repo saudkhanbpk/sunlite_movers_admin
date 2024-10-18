@@ -5,6 +5,7 @@ const AddServices = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [formData, setFormData] = useState({});
   const [suggestions, setSuggestions] = useState({});
+  const [addedServices, setAddedServices] = useState([]);
 
   const serviceTypes = [
     { id: 'transport', name: 'Transport Service', icon: <Truck size={24} /> },
@@ -27,37 +28,45 @@ const AddServices = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
 
     // Generate suggestions based on input
     if (sampleSuggestions[name]) {
-      const filtered = sampleSuggestions[name].filter(item => 
+      const filtered = sampleSuggestions[name].filter((item) =>
         item.toLowerCase().includes(value.toLowerCase())
       );
-      setSuggestions(prev => ({ ...prev, [name]: filtered }));
+      setSuggestions((prev) => ({ ...prev, [name]: filtered }));
     }
   };
 
   const handleSuggestionClick = (name, value) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
-    setSuggestions(prev => ({ ...prev, [name]: [] }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setSuggestions((prev) => ({ ...prev, [name]: [] }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Submitted Service:', selectedService, formData);
-    alert('Service added successfully!');
+    const serviceData = {
+      type: selectedService,
+      ...formData,
+    };
+    setAddedServices((prev) => [...prev, serviceData]);
     setSelectedService(null);
     setFormData({});
     setSuggestions({});
+  };
+
+  const handleDeleteService = (index) => {
+    const updatedServices = addedServices.filter((_, i) => i !== index);
+    setAddedServices(updatedServices);
   };
 
   const renderSuggestions = (name) => {
     return suggestions[name] && suggestions[name].length > 0 ? (
       <ul className="absolute z-10 w-full bg-white border border-gray-300 mt-1 rounded-md shadow-lg">
         {suggestions[name].map((item, index) => (
-          <li 
-            key={index} 
+          <li
+            key={index}
             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
             onClick={() => handleSuggestionClick(name, item)}
           >
@@ -182,7 +191,7 @@ const AddServices = () => {
   return (
     <div className="w-full mx-auto p-8 bg-white rounded-xl shadow-lg min-h-screen">
       <h2 className="text-2xl font-bold  mb-8 text-gray-800">Add New Service</h2>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {serviceTypes.map((service) => (
           <div
@@ -205,14 +214,41 @@ const AddServices = () => {
       {selectedService && (
         <form onSubmit={handleSubmit} className="space-y-4">
           {renderForm()}
-          <button 
-            type="submit" 
-            className="w-fit bg-green-600 text-white py-3 px-3 rounded-md hover:bg-green-700 transition duration-300 ease-in-out  font-semibold"
+          <button
+            type="submit"
+            className="w-fit bg-green-600 text-white py-3 px-3 rounded-md hover:bg-green-700 transition duration-300 ease-in-out font-semibold"
           >
             Add Service
           </button>
         </form>
       )}
+
+      {/* Display added services */}
+      <div className="mt-8">
+        <h3 className="text-xl font-bold mb-4">Added Services</h3>
+        {addedServices.length > 0 ? (
+          <ul className="space-y-4">
+            {addedServices.map((service, index) => (
+              <li key={index} className="bg-gray-100 p-4 rounded-lg shadow-md flex justify-between">
+                <div>
+                  <p className="font-bold capitalize">{service.type.replace('_', ' ')}</p>
+                  {Object.entries(service).map(([key, value]) => (
+                    key !== 'type' && <p key={key}><strong>{key}:</strong> {value}</p>
+                  ))}
+                </div>
+                <button
+                  onClick={() => handleDeleteService(index)}
+                  className="text-red-600 hover:underline"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No services added yet.</p>
+        )}
+      </div>
     </div>
   );
 };
