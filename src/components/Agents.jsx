@@ -45,6 +45,27 @@ const Agents = () => {
         }));
     };
 
+    const handleDeleteAgent = async () => {
+        try {
+            const response = await fetch(`${BaseUrl}/api/deleteagents/${selectedAgent._id}`, {
+                method: 'DELETE',
+            });
+
+            if (response.status === 200) {
+                // Remove the deleted agent from the state
+                setAgentsData((prevData) => prevData.filter(agent => agent._id !== selectedAgent._id));
+                closeModal();
+                toast.success('Agent deleted successfully'); // Show success toast
+            } else {
+                toast.error('Failed to delete agent'); // Show error toast if the deletion failed
+            }
+        } catch (error) {
+            console.error('Error deleting agent:', error);
+            toast.error('An error occurred while deleting the agent'); // Show error toast on failure
+        }
+    };
+
+
     const handleUpdateSubmit = async (e) => {
         e.preventDefault()
         try {

@@ -153,7 +153,7 @@ const AddNewGuides = () => {
             setFileName('');
             setSkillInput('');
             setPortfolioInput('');
-            navigate('/agents')
+            navigate('/guides')
 
         } catch (error) {
             console.error('Error creating agent:', error);
@@ -166,7 +166,7 @@ const AddNewGuides = () => {
     return (
         <div className='flex items-center'>
             <div className="max-w-md p-6 md:ml-10 bg-[#E8F5FE] rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold mb-6 text-center">Add New Driver</h2>
+                <h2 className="text-2xl font-bold mb-6 text-center">Add New Guide</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* File upload */}
                     <div className="flex justify-center items-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 relative">
