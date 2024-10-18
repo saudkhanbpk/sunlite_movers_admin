@@ -6,8 +6,10 @@ const AddServices = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [formData, setFormData] = useState({});
   const [suggestions, setSuggestions] = useState({});
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [addedServices, setAddedServices] = useState([]);
   const [fileName, setFileName] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+  
   const serviceTypes = [
     { id: 'transport', name: 'Transport Service', icon: <Truck size={24} /> },
     { id: 'accommodation', name: 'Accommodation Service', icon: <Home size={24} /> },
@@ -35,29 +37,37 @@ const AddServices = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
 
     // Generate suggestions based on input
     if (sampleSuggestions[name]) {
-      const filtered = sampleSuggestions[name].filter(item =>
+      const filtered = sampleSuggestions[name].filter((item) =>
         item.toLowerCase().includes(value.toLowerCase())
       );
-      setSuggestions(prev => ({ ...prev, [name]: filtered }));
+      setSuggestions((prev) => ({ ...prev, [name]: filtered }));
     }
   };
 
   const handleSuggestionClick = (name, value) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
-    setSuggestions(prev => ({ ...prev, [name]: [] }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setSuggestions((prev) => ({ ...prev, [name]: [] }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Submitted Service:', selectedService, formData);
-    alert('Service added successfully!');
+    const serviceData = {
+      type: selectedService,
+      ...formData,
+    };
+    setAddedServices((prev) => [...prev, serviceData]);
     setSelectedService(null);
     setFormData({});
     setSuggestions({});
+  };
+
+  const handleDeleteService = (index) => {
+    const updatedServices = addedServices.filter((_, i) => i !== index);
+    setAddedServices(updatedServices);
   };
 
   const renderSuggestions = (name) => {
@@ -158,23 +168,23 @@ const AddServices = () => {
                 <p className="text-sm text-gray-600 mt-2">Selected file: {fileName}</p>
               )}
               <div className='pt-5'>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Enter name"
+                  value={formData.airline || ''}
+                  className="w-full p-2 mb-4 border rounded"
+                  onChange={handleInputChange}
+                />
+                {renderSuggestions('airline')}
+              </div>
               <input
                 type="text"
-                name="name"
-                placeholder="Enter name"
-                value={formData.airline || ''}
+                name="description"
+                placeholder="Enter Description"
                 className="w-full p-2 mb-4 border rounded"
                 onChange={handleInputChange}
               />
-              {renderSuggestions('airline')}
-            </div>
-            <input
-              type="text"
-              name="description"
-              placeholder="Enter Description"
-              className="w-full p-2 mb-4 border rounded"
-              onChange={handleInputChange}
-            />
             </div>
           </>
         );
@@ -210,12 +220,39 @@ const AddServices = () => {
           {renderForm()}
           <button
             type="submit"
-            className="w-fit bg-green-600 text-white py-3 px-3 rounded-md hover:bg-green-700 transition duration-300 ease-in-out  font-semibold"
+            className="w-fit bg-green-600 text-white py-3 px-3 rounded-md hover:bg-green-700 transition duration-300 ease-in-out font-semibold"
           >
             Add Service
           </button>
         </form>
       )}
+
+      {/* Display added services */}
+      <div className="mt-8">
+        <h3 className="text-xl font-bold mb-4">Added Services</h3>
+        {addedServices.length > 0 ? (
+          <ul className="space-y-4">
+            {addedServices.map((service, index) => (
+              <li key={index} className="bg-gray-100 p-4 rounded-lg shadow-md flex justify-between">
+                <div>
+                  <p className="font-bold capitalize">{service.type.replace('_', ' ')}</p>
+                  {Object.entries(service).map(([key, value]) => (
+                    key !== 'type' && <p key={key}><strong>{key}:</strong> {value}</p>
+                  ))}
+                </div>
+                <button
+                  onClick={() => handleDeleteService(index)}
+                  className="text-red-600 hover:underline"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No services added yet.</p>
+        )}
+      </div>
     </div>
   );
 };
