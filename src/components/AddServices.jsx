@@ -1,29 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Truck, Home, Plane } from 'lucide-react';
+import React, { useState } from 'react';
+import { Users } from 'lucide-react';
 import { BsUpload } from 'react-icons/bs';
+import { BaseUrl } from '../BaseUrl';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const AddServices = () => {
-  const [selectedService, setSelectedService] = useState(null);
-  const [formData, setFormData] = useState({});
-  const [suggestions, setSuggestions] = useState({});
-  const [addedServices, setAddedServices] = useState([]);
-  const [fileName, setFileName] = useState('');
+  const naviagete = useNavigate()
   const [selectedFile, setSelectedFile] = useState(null);
-  const [show, setShow] = useState(false)
-  const [formShow, setFormShow] = useState(false)
-
-  const serviceTypes = [
-    { id: 'transport', name: 'Transport Service', icon: <Truck size={24} /> },
-    { id: 'accommodation', name: 'Accommodation Service', icon: <Home size={24} /> },
-    { id: 'flight', name: 'Flight Service', icon: <Plane size={24} /> },
-  ];
-
-  // Sample suggestion data (in a real app, this might come from an API)
-  const sampleSuggestions = {
-    vehicleType: ['Sedan', 'SUV', 'Van', 'Luxury Car', 'Bus'],
-    airline: ['Emirates', 'Etihad Airways', 'flydubai', 'Air Arabia'],
-    propertyType: ['Hotel', 'Apartment', 'Villa', 'Resort'],
-  };
+  const [fileName, setFileName] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [selectedType, setSelectedType] = useState('Flight Book');
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -31,227 +19,212 @@ const AddServices = () => {
     setFileName(file ? file.name : '');
   };
 
-  const handleServiceSelect = (serviceId) => {
-    setSelectedService(serviceId);
-    setFormData({});
-    setSuggestions({});
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Generate suggestions based on input
-    if (sampleSuggestions[name]) {
-      const filtered = sampleSuggestions[name].filter((item) =>
-        item.toLowerCase().includes(value.toLowerCase())
-      );
-      setSuggestions((prev) => ({ ...prev, [name]: filtered }));
-    }
-  };
-
-  const handleSuggestionClick = (name, value) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setSuggestions((prev) => ({ ...prev, [name]: [] }));
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const serviceData = {
-      type: selectedService,
-      ...formData,
-    };
-    setAddedServices((prev) => [...prev, serviceData]);
-    setSelectedService(null);
-    setFormData({});
-    setSuggestions({});
-  };
 
-  const handleDeleteService = (index) => {
-    const updatedServices = addedServices.filter((_, i) => i !== index);
-    setAddedServices(updatedServices);
-  };
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append('selectedType', selectedType);
 
-  const renderSuggestions = (name) => {
-    return suggestions[name] && suggestions[name].length > 0 ? (
-      <ul className="absolute z-10 w-full bg-white border border-gray-300 mt-1 rounded-md shadow-lg">
-        {suggestions[name].map((item, index) => (
-          <li
-            key={index}
-            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-            onClick={() => handleSuggestionClick(name, item)}
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
-    ) : null;
-  };
+    if (selectedFile) {
+      formData.append('image', selectedFile);
+    }
 
-  const renderForm = () => {
-    switch (selectedService) {
-      case 'transport':
-        return (
-          <>
-            <div className="relative">
-              <input
-                type="text"
-                name="vehicleType"
-                placeholder="Enter vehicle type"
-                value={formData.vehicleType || ''}
-                className="w-full p-2 mb-1 border rounded"
-                onChange={handleInputChange}
-              />
-              {renderSuggestions('vehicleType')}
-            </div>
-            <input
-              type="number"
-              name="capacity"
-              placeholder="Passenger capacity"
-              className="w-full p-2 mb-4 border rounded"
-              onChange={handleInputChange}
-            />
-            <input
-              type="text"
-              name="pricePerKm"
-              placeholder="Price per km (e.g., 2.50)"
-              className="w-full p-2 mb-4 border rounded"
-              onChange={handleInputChange}
-            />
-          </>
-        );
-      case 'accommodation':
-        return (
-          <>
-            <input
-              type="text"
-              name="propertyName"
-              placeholder="Enter property name"
-              className="w-full p-2 mb-4 border rounded"
-              onChange={handleInputChange}
-            />
-            <div className="relative">
-              <input
-                type="text"
-                name="propertyType"
-                placeholder="Enter property type"
-                value={formData.propertyType || ''}
-                className="w-full p-2 mb-1 border rounded"
-                onChange={handleInputChange}
-              />
-              {renderSuggestions('propertyType')}
-            </div>
-            <input
-              type="number"
-              name="pricePerNight"
-              placeholder="Price per night"
-              className="w-full p-2 mb-4 border rounded"
-              onChange={handleInputChange}
-            />
-          </>
-        );
-      case 'flight':
-        return (
-          <>
-            {formShow && (
-              <div className="relative mt-5">
-                <div className="flex justify-center items-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 relative">
-                  <div className="text-center">
-                    <BsUpload className="mx-auto h-12 w-12 text-gray-400" />
-                    <span className="mt-2 block text-sm font-medium text-gray-900">Upload picture</span>
-                  </div>
-                  <input
-                    type="file"
-                    className="absolute inset-0 mb-4 opacity-0 cursor-pointer"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                  />
-                </div>
-                {fileName && (
-                  <p className="text-sm text-gray-600 mt-2">Selected file: {fileName}</p>
-                )}
-                <div className='pt-5'>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Enter name"
-                    value={formData.airline || ''}
-                    className="w-full p-2 mb-4 border rounded"
-                    onChange={handleInputChange}
-                  />
-                  {renderSuggestions('airline')}
-                </div>
-                <input
-                  type="text"
-                  name="description"
-                  placeholder="Enter Description"
-                  className="w-full p-2 mb-4 border rounded"
-                  onChange={handleInputChange}
-                />
-              </div>
-            )}
-            {show ?
-              (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                  <div
-                    className='cursor-pointer p-6 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 bg-blue-600 text-white shadow-lg'
-                  >
-                    <div className="flex items-center justify-center mb-4">
-                      {/* {service.icon} */}
-                      icon
-                    </div>
-                    <p className="text-center font-semibold">
-                      service name
-                    </p>
-                  </div>
-                </div>
-              )
-              :
-              ""
-            }
-          </>
-        );
-      default:
-        return null;
+    try {
+      const response = await fetch(`${BaseUrl}/api/services`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast.success(data.msg);
+        naviagete('/service_list')
+        setName('');
+        setDescription('');
+        setSelectedType('Flight Book');
+        setFileName('');
+        setSelectedFile(null);
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.msg || 'Error creating service');
+      }
+    } catch (error) {
+      toast.error('An error occurred while creating the service');
+      console.error('Error:', error);
     }
   };
+
 
   return (
     <div className="w-full mx-auto p-8 bg-white rounded-xl shadow-lg min-h-screen">
-      <h2 className="text-2xl font-bold  mb-8 text-gray-800">Add New Service</h2>
-      <div className='p-2 flex justify-end'>
-        <button onClick={() => setFormShow(!formShow)} className='px-4 py-2 rounded-md bg-blue-500 text-white'>
-          {formShow ? 'Close Form' : 'Add New Service'}
-        </button>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" onClick={() => setShow(!show)}>
-        {serviceTypes.map((service) => (
-          <div
-            key={service.id}
-            onClick={() => handleServiceSelect(service.id)}
-            className={`cursor-pointer p-6 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 ${selectedService === service.id
-              ? 'bg-blue-600 text-white shadow-lg'
-              : 'bg-gray-100 text-gray-800 shadow'
-              }`}
-          >
-            <div className="flex items-center justify-center mb-4">
-              {service.icon}
-            </div>
-            <p className="text-center font-semibold">{service.name}</p>
+      <h2 className="text-2xl font-bold mb-8 text-gray-800">Add New Service</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="flex justify-center items-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 relative">
+          <div className="text-center">
+            <BsUpload className="mx-auto h-12 w-12 text-gray-400" />
+            <span className="mt-2 block text-sm font-medium text-gray-900">Upload picture</span>
           </div>
-        ))}
-      </div>
+          <input
+            type="file"
+            className="absolute inset-0 opacity-0 cursor-pointer"
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+        </div>
+        {fileName && (
+          <p className="text-sm text-gray-600 mt-2">Selected file: {fileName}</p>
+        )}
 
-      {selectedService && (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {renderForm()}
-         
-        </form>
-      )}
+        <div className="pt-5">
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full p-2 mb-4 border rounded"
+          />
+          <input
+            type="text"
+            name="description"
+            placeholder="Enter Description..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full p-2 mb-4 border rounded"
+          />
 
+          <div className="flex flex-col mb-4">
+            <label htmlFor="serviceTypes" className="mb-2 font-semibold">Service Types</label>
+            <div className="relative">
+              <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <select
+                id="serviceTypes"
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+                className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+              >
+                <option value="Flight Book">Flight Book</option>
+                <option value="Accommodation">Accommodation</option>
+                <option value="Transport">Transport</option>
+                <option value="Guide Tour">Guide Tour</option>
+              </select>
+            </div>
+          </div>
+        </div>
 
+        <button
+          type="submit"
+          className="bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition duration-300 ease-in-out font-semibold"
+        >
+          Submit
+        </button>
+      </form>
     </div>
   );
 };
 
 export default AddServices;
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import { Link } from 'react-router-dom';
+// import { Truck, Home, Plane, MapPin } from 'lucide-react';
+// import { BaseUrl } from '../BaseUrl';
+// import { MdOutlineDeleteOutline } from 'react-icons/md';
+// import { FaRegEdit } from 'react-icons/fa';
+
+// const ServiceList = () => {
+//   const [services, setServices] = useState([]);
+//   const [selectedService, setSelectedService] = useState(null);
+
+//   const fetchServices = async () => {
+//     try {
+//       const response = await fetch(`${BaseUrl}/api/services`);
+//       if (!response.ok) {
+//         throw new Error('Failed to fetch services');
+//       }
+//       const data = await response.json();
+//       setServices(data);
+//       console.log('Fetched Services:', data);
+//     } catch (error) {
+//       console.error('Error fetching services:', error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchServices();
+//   }, []);
+
+//   const handleCardClick = (service) => {
+//     setSelectedService(service);
+//   };
+
+//   const getServiceIcon = (type) => {
+//     switch (type.trim().toLowerCase()) {
+//       case 'transport':
+//         return <Truck size={24} />;
+//       case 'accommodation':
+//         return <Home size={24} />;
+//       case 'flight':
+//         return <Plane size={24} />;
+//       case 'guide tour':
+//         return <MapPin size={24} />;
+//       default:
+//         return null;
+//     }
+//   };
+
+//   return (
+//     <div className="w-full mx-auto p-8 bg-white rounded-xl shadow-lg min-h-screen">
+//       <h2 className="text-2xl font-bold mb-8 text-gray-800">Service List</h2>
+
+//       <div className="flex justify-end mb-6">
+//         <Link
+//           to="/add_services"
+//           className="bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out font-semibold"
+//         >
+//           Add Service
+//         </Link>
+//       </div>
+
+//       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+//         {services.map((service) => (
+//           <div
+//             key={service._id}
+//             className="cursor-pointer p-6 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 bg-gray-100 text-gray-800 shadow"
+//             onClick={() => handleCardClick(service)}
+//           >
+//             <div className="flex items-center justify-center mb-4">
+//               {getServiceIcon(service.selectedType)}
+//             </div>
+//             <p className="text-center font-semibold">{service.name}</p>
+//           </div>
+//         ))}
+//       </div>
+
+//       {selectedService && (
+//         <div className="mt-8 p-4 bg-gray-50 border rounded-md">
+//           <div className='flex items-center gap-2 justify-between'>
+//             <h3 className="text-xl font-bold">{selectedService.name}</h3>
+//             <div className='flex text-[20px] items-center gap-2'>
+//               <div>
+//                 <FaRegEdit className='text-yellow-300' />
+//               </div>
+//               <div>
+//                 <MdOutlineDeleteOutline className='text-red-500' />
+//               </div>
+//             </div>
+//           </div>
+
+//           <p>{selectedService.description}</p>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default ServiceList;
+

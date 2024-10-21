@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import logo from '../assets/img/kkra_logo.png'
 const Sidebar = ({ isOpen }) => {
     return (
-        <div className="relative z-10 overflow-y-auto">
+        <div className="relative z-10 md:overflow-y-auto">
             <div className={`w-52 bg-[#E8F5FE] h-auto absolute md:relative ${isOpen ? 'block' : 'hidden md:block'}`}>
                 <div className="p-4 pt-7">
                     <img src={logo} className='w-[150px]' />
@@ -32,7 +32,7 @@ const Sidebar = ({ isOpen }) => {
                         Add Location
                     </NavLink>
                     <NavLink
-                        to="/add_services"
+                        to="/service_list"
                         className={({ isActive }) => `flex text-[18px] pt-6 items-center px-4 py-2 ${isActive ? 'text-[#4318FF]' : 'text-[#000000]'}`}
                     >
                         <FaServicestack className="mr-3" size={20} />

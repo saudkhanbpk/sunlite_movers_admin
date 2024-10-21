@@ -12,10 +12,10 @@ const AddLocation = () => {
     });
 
     const [selectedFile, setSelectedFile] = useState(null);
+    const [fileName, setFileName] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [loading, setLoading] = useState(false);
-    const [fileName, setFileName] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -79,9 +79,9 @@ const AddLocation = () => {
                             onChange={handleFileChange}
                         />
                     </div>
-                        {fileName && ( 
-                            <p className="text-sm text-gray-600 mt-2">Selected file: {fileName}</p>
-                        )}
+                    {fileName && (
+                        <p className="text-sm text-gray-600 mt-2">Selected file: {fileName}</p>
+                    )}
                     <input
                         type="text"
                         name="title"
