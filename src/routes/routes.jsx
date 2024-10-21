@@ -17,8 +17,9 @@ import AddNewGuides from '../components/AddNewGuides'
 import AddNewDrivers from '../components/AddNewDrivers'
 import PackagesDetails from '../components/PackagesDetails'
 import UpdatePackage from '../components/UpdatePackage'
-import AddServices from '../components/AddServices'
 import BookedServices from '../components/BookedServices'
+import ServiceList from '../components/ServiceList'
+import AddServices from '../components/AddServices'
 
 const AppRoutes = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -47,8 +48,10 @@ const AppRoutes = () => {
                         <Route path='/packages' element={<Packages />} />
                         <Route path='/package-details' element={<PackagesDetails />} />
                         <Route path='/update-package' element={<UpdatePackage />} />
+                        <Route path='/service_list' element={<ServiceList />} />
                         <Route path='/add_services' element={<AddServices />} />
                         <Route path='/booked_services' element={<BookedServices />} />
+                       
 
                     </Routes>
                 </div>
