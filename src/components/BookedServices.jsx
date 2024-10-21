@@ -8,6 +8,8 @@ const BookedServices = () => {
       serviceName: 'Luxury Sedan',
       serviceType: 'Transport',
       bookingDate: '2024-10-15',
+      departDate: '2024-07-12',
+      returnDate: '2024-08-19',
       customerName: 'John Doe',
       price: '$100',
     },
@@ -16,6 +18,8 @@ const BookedServices = () => {
       serviceName: 'Emirates Flight EK007',
       serviceType: 'Flight',
       bookingDate: '2024-10-16',
+      departDate: '2024-07-12',
+      returnDate: '2024-08-19',
       customerName: 'Alice Johnson',
       price: '$1200',
     },
@@ -24,6 +28,8 @@ const BookedServices = () => {
       serviceName: 'Marina Bay Hotel',
       serviceType: 'Accommodation',
       bookingDate: '2024-10-14',
+      departDate: '2024-07-12',
+      returnDate: '2024-08-19',
       customerName: 'James Smith',
       price: '$300',
     },
@@ -32,24 +38,10 @@ const BookedServices = () => {
       serviceName: 'Dubai City Tour',
       serviceType: 'Tours',
       bookingDate: '2024-10-17',
+      departDate: '2024-07-12',
+      returnDate: '2024-08-19',
       customerName: 'Emily Davis',
       price: '$150',
-    },
-    {
-      id: 5,
-      serviceName: 'Skyline Rooftop Dinner',
-      serviceType: 'Dinings',
-      bookingDate: '2024-10-18',
-      customerName: 'Michael Brown',
-      price: '$200',
-    },
-    {
-      id: 6,
-      serviceName: 'Desert Photography',
-      serviceType: 'Photography',
-      bookingDate: '2024-10-19',
-      customerName: 'Sarah Miller',
-      price: '$500',
     },
   ];
 
@@ -63,6 +55,8 @@ const BookedServices = () => {
               <th className="py-2 px-4 text-left border-b">Service Name</th>
               <th className="py-2 px-4 text-left border-b">Service Type</th>
               <th className="py-2 px-4 text-left border-b">Booking Date</th>
+              <th className="py-2 px-4 text-left border-b">Depart Date</th>
+              <th className="py-2 px-4 text-left border-b">Return Date</th>
               <th className="py-2 px-4 text-left border-b">Customer Name</th>
               <th className="py-2 px-4 text-left border-b">Price</th>
             </tr>
@@ -73,6 +67,8 @@ const BookedServices = () => {
                 <td className="py-2 px-4 border-b">{service.serviceName}</td>
                 <td className="py-2 px-4 border-b">{service.serviceType}</td>
                 <td className="py-2 px-4 border-b">{service.bookingDate}</td>
+                <td className="py-2 px-4 border-b">{service.departDate}</td>
+                <td className="py-2 px-4 border-b">{service.returnDate}</td>
                 <td className="py-2 px-4 border-b">{service.customerName}</td>
                 <td className="py-2 px-4 border-b">{service.price}</td>
               </tr>
