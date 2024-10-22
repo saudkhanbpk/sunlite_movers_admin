@@ -1,54 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { BaseUrl } from '../BaseUrl';
+import Header from './Header';
 
 const BookedServices = () => {
-  // Static booked services data
-  const bookedServices = [
-    {
-      id: 1,
-      serviceName: 'Luxury Sedan',
-      serviceType: 'Transport',
-      bookingDate: '2024-10-15',
-      departDate: '2024-07-12',
-      returnDate: '2024-08-19',
-      customerName: 'John Doe',
-      price: '$100',
-    },
-    {
-      id: 2,
-      serviceName: 'Emirates Flight EK007',
-      serviceType: 'Flight',
-      bookingDate: '2024-10-16',
-      departDate: '2024-07-12',
-      returnDate: '2024-08-19',
-      customerName: 'Alice Johnson',
-      price: '$1200',
-    },
-    {
-      id: 3,
-      serviceName: 'Marina Bay Hotel',
-      serviceType: 'Accommodation',
-      bookingDate: '2024-10-14',
-      departDate: '2024-07-12',
-      returnDate: '2024-08-19',
-      customerName: 'James Smith',
-      price: '$300',
-    },
-    {
-      id: 4,
-      serviceName: 'Dubai City Tour',
-      serviceType: 'Tours',
-      bookingDate: '2024-10-17',
-      departDate: '2024-07-12',
-      returnDate: '2024-08-19',
-      customerName: 'Emily Davis',
-      price: '$150',
-    },
-  ];
+  const [bookedServices, setBookedServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  console.log('bookedServices', bookedServices);
+
+  // Fetch data from the backend API
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const response = await axios.get(`${BaseUrl}/api/booking_flights`);
+        setBookedServices(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+  };
 
   return (
     <div className="w-full mx-auto p-8 bg-white rounded-xl shadow-lg min-h-screen">
-      <h2 className="text-2xl font-bold mb-8 text-gray-800">Booked Services</h2>
-      <div className="overflow-x-auto">
+      <Header />
+      <div className="overflow-x-auto rounded-md">
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
             <tr className="bg-gray-100">
@@ -62,17 +58,25 @@ const BookedServices = () => {
             </tr>
           </thead>
           <tbody>
-            {bookedServices.map((service) => (
-              <tr key={service.id} className="hover:bg-gray-50">
-                <td className="py-2 px-4 border-b">{service.serviceName}</td>
-                <td className="py-2 px-4 border-b">{service.serviceType}</td>
-                <td className="py-2 px-4 border-b">{service.bookingDate}</td>
-                <td className="py-2 px-4 border-b">{service.departDate}</td>
-                <td className="py-2 px-4 border-b">{service.returnDate}</td>
-                <td className="py-2 px-4 border-b">{service.customerName}</td>
-                <td className="py-2 px-4 border-b">{service.price}</td>
+            {bookedServices.length > 0 ? (
+              bookedServices.map((service) => (
+                <tr key={service._id} className="hover:bg-gray-50">
+                  <td className="py-2 px-4 border-b">{service.name}</td>
+                  <td className="py-2 px-4 border-b">{service.selectedType}</td>
+                  <td className="py-2 px-4 border-b">{formatDate(service.BookingDate)}</td>
+                  <td className="py-2 px-4 border-b">{formatDate(service.departDate)}</td>
+                  <td className="py-2 px-4 border-b">{formatDate(service.returnDate)}</td>
+                  <td className="py-2 px-4 border-b">{service.customerName}</td>
+                  <td className="py-2 px-4 border-b">{service.price}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" className="py-4 px-4 text-center">
+                  No bookings found.
+                </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

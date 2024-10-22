@@ -24,6 +24,8 @@ const Header = ({ onSearch }) => {
                 return 'DRIVERS';
             case '/calender':
                 return 'Calender';
+            case '/booked_services':
+                return 'Booked Services';
             default:
                 return 'Dashboard';
         }
