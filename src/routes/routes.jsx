@@ -20,6 +20,7 @@ import UpdatePackage from '../components/UpdatePackage'
 import BookedServices from '../components/BookedServices'
 import ServiceList from '../components/ServiceList'
 import AddServices from '../components/AddServices'
+import Influencers from '../components/Influencers'
 
 const AppRoutes = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +52,7 @@ const AppRoutes = () => {
                         <Route path='/service_list' element={<ServiceList />} />
                         <Route path='/add_services' element={<AddServices />} />
                         <Route path='/booked_services' element={<BookedServices />} />
-                       
+                        <Route path='/influencers' element={<Influencers />} />
 
                     </Routes>
                 </div>
