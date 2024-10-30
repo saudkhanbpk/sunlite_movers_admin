@@ -12,6 +12,7 @@ const ServiceList = () => {
   const [editService, setEditService] = useState(null);  // State to hold service being edited
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   const [searchQuery, setSearchQuery] = useState('');     // State for search input
+  const [expandedServiceId, setExpandedServiceId] = useState(null);
 
   // Fetch services
   const fetchServices = async () => {
@@ -111,21 +112,21 @@ const ServiceList = () => {
   };
 
   // Filter services based on the search query
- // Filter services based on the search query
-const filteredServices = services.filter(service => {
-  const serviceName = service.name ? service.name.toLowerCase().trim() : ''; // Fallback if null
-  const serviceType = service.selectedType ? service.selectedType.toLowerCase().trim() : ''; // Fallback if null
-  const searchLower = searchQuery.toLowerCase().trim();
+  // Filter services based on the search query
+  const filteredServices = services.filter(service => {
+    const serviceName = service.name ? service.name.toLowerCase().trim() : ''; // Fallback if null
+    const serviceType = service.selectedType ? service.selectedType.toLowerCase().trim() : ''; // Fallback if null
+    const searchLower = searchQuery.toLowerCase().trim();
 
-  // Filter by name or type
-  return serviceName.includes(searchLower) || serviceType.includes(searchLower);
-});
+    // Filter by name or type
+    return serviceName.includes(searchLower) || serviceType.includes(searchLower);
+  });
 
 
   return (
     <div className="w-full mx-auto p-8 bg-white rounded-xl shadow-lg min-h-screen">
       <h2 className="text-2xl font-bold mb-8 text-gray-800">Service List</h2>
-      
+
       {/* Search input */}
       <div className="relative flex-grow md:flex-grow-0 mb-6">
         <input
@@ -180,7 +181,19 @@ const filteredServices = services.filter(service => {
               <div className='pt-4'>
                 <p className="font-bold">Service Name : {service.name}</p>
                 <p className="pt-2">Service Type : {service.selectedType}</p>
-                <p className="pt-3">Service Description : {service.description}</p>
+                <p className="pt-3">
+                  Service Description: {expandedServiceId === service._id
+                    ? service.description
+                    : `${service.description.slice(0, 120)}...`}
+                  {service.description.length > 20 && (
+                    <button
+                      className="text-blue-500"
+                      onClick={() => setExpandedServiceId(expandedServiceId === service._id ? null : service._id)}
+                    >
+                      {expandedServiceId === service._id ? 'View Less' : 'View More'}
+                    </button>
+                  )}
+                </p>
               </div>
             </div>
           ))
