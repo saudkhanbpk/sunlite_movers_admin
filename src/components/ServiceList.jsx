@@ -9,12 +9,11 @@ import { FiSearch } from 'react-icons/fi';
 
 const ServiceList = () => {
   const [services, setServices] = useState([]);
-  const [editService, setEditService] = useState(null);  // State to hold service being edited
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
-  const [searchQuery, setSearchQuery] = useState('');     // State for search input
+  const [editService, setEditService] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [expandedServiceId, setExpandedServiceId] = useState(null);
 
-  // Fetch services
   const fetchServices = async () => {
     try {
       const response = await fetch(`${BaseUrl}/api/services`);
@@ -33,7 +32,6 @@ const ServiceList = () => {
     fetchServices();
   }, []);
 
-  // Handle service deletion
   const handleDelete = async (id) => {
     try {
       const response = await fetch(`${BaseUrl}/api/services/${id}`, {
@@ -45,7 +43,6 @@ const ServiceList = () => {
       }
 
       const result = await response.json();
-      console.log(result.msg);
       toast.success(result.msg);
 
       setServices((prevServices) => prevServices.filter((service) => service._id !== id));
@@ -54,13 +51,11 @@ const ServiceList = () => {
     }
   };
 
-  // Handle opening the edit modal
   const handleEdit = (service) => {
     setEditService(service);
-    setIsModalOpen(true); // Open the modal
+    setIsModalOpen(true);
   };
 
-  // Handle updating the service
   const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -69,7 +64,6 @@ const ServiceList = () => {
     formData.append('description', editService.description);
     formData.append('selectedType', editService.selectedType);
 
-    // If there's a new image file selected
     if (e.target.image.files[0]) {
       formData.append('image', e.target.image.files[0]);
     }
@@ -87,10 +81,8 @@ const ServiceList = () => {
       const result = await response.json();
       toast.success(result.msg);
 
-      // Close modal and refresh service list
       setIsModalOpen(false);
-      fetchServices(); // Refresh service list after update
-
+      fetchServices();
     } catch (error) {
       console.error('Error updating service:', error);
     }
@@ -111,29 +103,23 @@ const ServiceList = () => {
     }
   };
 
-  // Filter services based on the search query
-  // Filter services based on the search query
-  const filteredServices = services.filter(service => {
-    const serviceName = service.name ? service.name.toLowerCase().trim() : ''; // Fallback if null
-    const serviceType = service.selectedType ? service.selectedType.toLowerCase().trim() : ''; // Fallback if null
+  const filteredServices = services.filter((service) => {
+    const serviceName = service.name ? service.name.toLowerCase().trim() : '';
+    const serviceType = service.selectedType ? service.selectedType.toLowerCase().trim() : '';
     const searchLower = searchQuery.toLowerCase().trim();
-
-    // Filter by name or type
     return serviceName.includes(searchLower) || serviceType.includes(searchLower);
   });
 
-
   return (
-    <div className="w-full mx-auto p-8 bg-white rounded-xl shadow-lg min-h-screen">
+    <div className="max-w-5xl mx-auto p-4  rounded-xl  min-h-screen">
       <h2 className="text-2xl font-bold mb-8 text-gray-800">Service List</h2>
 
-      {/* Search input */}
-      <div className="relative flex-grow md:flex-grow-0 mb-6">
+      <div className="relative mb-6">
         <input
           type="text"
           placeholder="Search by name or type"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}  // Update search query state
+          onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full md:w-64 pl-10 pr-4 py-2 rounded-full border focus:outline-none focus:border-blue-500"
         />
         <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
@@ -148,44 +134,41 @@ const ServiceList = () => {
         </Link>
       </div>
 
-      <div className="flex w-full gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {filteredServices.length > 0 ? (
           filteredServices.map((service) => (
             <div
               key={service._id}
-              className="cursor-pointer md:w-[400px] w-full p-6 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 bg-gray-100 text-gray-800 shadow"
+              className="cursor-pointer p-4 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 bg-gray-100 text-gray-800 shadow-md"
             >
-              <div className='flex items-center justify-between'>
-                <div className="">
-                  {getServiceIcon(service.selectedType)}
-                </div>
-                <div className='flex items-center gap-2 text-[20px]'>
-                  {/* Edit Button */}
-                  <div
-                    className='text-yellow-300 cursor-pointer'
-                    onClick={() => handleEdit(service)}  // Open edit modal when clicked
-                  >
+              <div className="flex items-center justify-between mb-4">
+                <div>{getServiceIcon(service.selectedType)}</div>
+                <div className="flex items-center gap-2 text-[20px]">
+                  <div className="text-yellow-300 cursor-pointer" onClick={() => handleEdit(service)}>
                     <FaRegEdit />
                   </div>
-
-                  {/* Delete Button */}
-                  <div
-                    className='text-red-500 cursor-pointer'
-                    onClick={() => handleDelete(service._id)}
-                  >
+                  <div className="text-red-500 cursor-pointer" onClick={() => handleDelete(service._id)}>
                     <MdOutlineDeleteOutline />
                   </div>
                 </div>
               </div>
 
-              <div className='pt-4'>
-                <p className="font-bold">Service Name : {service.name}</p>
-                <p className="pt-2">Service Type : {service.selectedType}</p>
-                <p className="pt-3">
-                  Service Description: {expandedServiceId === service._id
-                    ? service.description
-                    : `${service.description.slice(0, 120)}...`}
-                  {service.description.length > 20 && (
+              {/* Display service image */}
+              {service.image && (
+                <img
+                  src={service.image}
+                  alt={service.name}
+                  className="w-full h-40 object-cover rounded-md mb-4"
+                />
+              )}
+
+              <div>
+                <p className="font-bold text-lg">{service.name}</p>
+                {/* <p className="pt-2 text-sm text-gray-600">Type: {service.selectedType}</p> */}
+                <p className="pt-3 text-sm">
+                  Description:{' '}
+                  {expandedServiceId === service._id ? service.description : `${service.description.slice(0, 120)}...`}
+                  {service.description.length > 120 && (
                     <button
                       className="text-blue-500"
                       onClick={() => setExpandedServiceId(expandedServiceId === service._id ? null : service._id)}
@@ -205,7 +188,7 @@ const ServiceList = () => {
       {/* Edit Service Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-md shadow-lg w-[400px]">
+          <div className="bg-white p-6 rounded-md shadow-lg w-full max-w-md mx-4">
             <h3 className="text-lg font-bold mb-4">Edit Service</h3>
             <form onSubmit={handleUpdate}>
               <div className="mb-4">
@@ -239,7 +222,7 @@ const ServiceList = () => {
 
               <div className="mb-4">
                 <label className="block text-gray-700">Upload Image:</label>
-                <input type="file" name="image" />
+                <input type="file" name="image" className="border border-gray-300 rounded p-2 w-full" />
               </div>
 
               <div className="flex justify-end">
@@ -250,11 +233,8 @@ const ServiceList = () => {
                 >
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white px-4 py-2 rounded"
-                >
-                  Update
+                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+                  Save Changes
                 </button>
               </div>
             </form>
@@ -265,4 +245,4 @@ const ServiceList = () => {
   );
 };
 
-export default ServiceList
+export default ServiceList;
