@@ -81,7 +81,7 @@ const AddServices = () => {
           <input
             type="text"
             name="name"
-            placeholder="Enter Name"
+            placeholder="Service Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full p-2 mb-4 border rounded"
@@ -89,29 +89,13 @@ const AddServices = () => {
           <input
             type="text"
             name="description"
-            placeholder="Enter Description..."
+            placeholder="Service Description..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="w-full p-2 mb-4 border rounded"
           />
 
-          <div className="flex flex-col mb-4">
-            <label htmlFor="serviceTypes" className="mb-2 font-semibold">Service Types</label>
-            <div className="relative">
-              <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-              <select
-                id="serviceTypes"
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
-              >
-                <option value="Flight Book">Flight Book</option>
-                <option value="Accommodation">Accommodation</option>
-                <option value="Transport">Transport</option>
-                <option value="Guide Tour">Guide Tour</option>
-              </select>
-            </div>
-          </div>
+         
         </div>
 
         <button
