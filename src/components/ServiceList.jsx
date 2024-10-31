@@ -13,6 +13,7 @@ const ServiceList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedServiceId, setExpandedServiceId] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   const fetchServices = async () => {
     try {
@@ -110,8 +111,12 @@ const ServiceList = () => {
     return serviceName.includes(searchLower) || serviceType.includes(searchLower);
   });
 
+  const handleShowMore = () => {
+    setVisibleCount((prevCount) => prevCount + 6);
+  };
+
   return (
-    <div className="max-w-5xl mx-auto p-4  rounded-xl  min-h-screen">
+    <div className="max-w-5xl mx-auto p-4 rounded-xl min-h-screen">
       <h2 className="text-2xl font-bold mb-8 text-gray-800">Service List</h2>
 
       <div className="relative mb-6">
@@ -135,8 +140,8 @@ const ServiceList = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {filteredServices.length > 0 ? (
-          filteredServices.map((service) => (
+        {filteredServices.slice(0, visibleCount).length > 0 ? (
+          filteredServices.slice(0, visibleCount).map((service) => (
             <div
               key={service._id}
               className="cursor-pointer p-4 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 bg-gray-100 text-gray-800 shadow-md"
@@ -164,7 +169,6 @@ const ServiceList = () => {
 
               <div>
                 <p className="font-bold text-lg">{service.name}</p>
-                {/* <p className="pt-2 text-sm text-gray-600">Type: {service.selectedType}</p> */}
                 <p className="pt-3 text-sm">
                   Description:{' '}
                   {expandedServiceId === service._id ? service.description : `${service.description.slice(0, 120)}...`}
@@ -184,6 +188,17 @@ const ServiceList = () => {
           <p>No services found matching your search.</p>
         )}
       </div>
+
+      {filteredServices.length > visibleCount && (
+        <div className="flex justify-center mb-6">
+          <button
+            onClick={handleShowMore}
+            className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out"
+          >
+            Show More
+          </button>
+        </div>
+      )}
 
       {/* Edit Service Modal */}
       {isModalOpen && (
@@ -211,16 +226,6 @@ const ServiceList = () => {
               </div>
 
               <div className="mb-4">
-                <label className="block text-gray-700">Type:</label>
-                <input
-                  type="text"
-                  className="w-full p-2 border border-gray-300 rounded"
-                  value={editService?.selectedType || ''}
-                  onChange={(e) => setEditService({ ...editService, selectedType: e.target.value })}
-                />
-              </div>
-
-              <div className="mb-4">
                 <label className="block text-gray-700">Upload Image:</label>
                 <input type="file" name="image" className="border border-gray-300 rounded p-2 w-full" />
               </div>
@@ -228,13 +233,16 @@ const ServiceList = () => {
               <div className="flex justify-end">
                 <button
                   type="button"
-                  className="mr-2 bg-gray-500 text-white px-4 py-2 rounded"
+                  className="mr-2 bg-gray-300 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-400"
                   onClick={() => setIsModalOpen(false)}
                 >
                   Cancel
                 </button>
-                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-                  Save Changes
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out"
+                >
+                  Update
                 </button>
               </div>
             </form>
