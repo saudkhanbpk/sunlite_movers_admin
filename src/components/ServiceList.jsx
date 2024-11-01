@@ -168,7 +168,7 @@ const ServiceList = () => {
               )}
 
               <div>
-                <p className="font-bold text-lg">{service.name}</p>
+                <p className="font-bold text-lg">{service.title}</p>
                 <p className="pt-3 text-sm">
                   Description:{' '}
                   {expandedServiceId === service._id ? service.description : `${service.description.slice(0, 120)}...`}
@@ -211,8 +211,8 @@ const ServiceList = () => {
                 <input
                   type="text"
                   className="w-full p-2 border border-gray-300 rounded"
-                  value={editService?.name || ''}
-                  onChange={(e) => setEditService({ ...editService, name: e.target.value })}
+                  value={editService?.title || ''}
+                  onChange={(e) => setEditService({ ...editService, title: e.target.value })}
                 />
               </div>
 

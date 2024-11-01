@@ -13,7 +13,7 @@ const BookedServices = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(`${BaseUrl}/api/booking_flights`);
+        const response = await axios.get(`${BaseUrl}/api/service-booking`);
         setBookedServices(response.data);
         setLoading(false);
       } catch (error) {
@@ -49,25 +49,37 @@ const BookedServices = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="py-2 px-4 text-left border-b">Service Name</th>
-              <th className="py-2 px-4 text-left border-b">Service Type</th>
-              <th className="py-2 px-4 text-left border-b">Booking Date</th>
-              <th className="py-2 px-4 text-left border-b">Depart Date</th>
-              <th className="py-2 px-4 text-left border-b">Return Date</th>
               <th className="py-2 px-4 text-left border-b">Customer Name</th>
+              <th className="py-2 px-4 text-left border-b">Adults</th>
+              <th className="py-2 px-4 text-left border-b">Children</th>
               <th className="py-2 px-4 text-left border-b">Price</th>
+              <th className="py-2 px-4 text-left border-b">Status</th>
             </tr>
           </thead>
           <tbody>
             {bookedServices.length > 0 ? (
               bookedServices.map((service) => (
                 <tr key={service._id} className="hover:bg-gray-50">
+                  <td className="py-2 px-4 border-b">{service.title}</td>
                   <td className="py-2 px-4 border-b">{service.name}</td>
-                  <td className="py-2 px-4 border-b">{service.selectedType}</td>
-                  <td className="py-2 px-4 border-b">{formatDate(service.BookingDate)}</td>
+                  {/* <td className="py-2 px-4 border-b">{formatDate(service.BookingDate)}</td>
                   <td className="py-2 px-4 border-b">{formatDate(service.departDate)}</td>
-                  <td className="py-2 px-4 border-b">{formatDate(service.returnDate)}</td>
-                  <td className="py-2 px-4 border-b">{service.customerName}</td>
+                  <td className="py-2 px-4 border-b">{formatDate(service.returnDate)}</td> */}
+                  <td className="py-2 px-4 border-b">{service.adults}</td>
+                  <td className="py-2 px-4 border-b">{service.children}</td>
                   <td className="py-2 px-4 border-b">{service.price}</td>
+                  <td className="py-2 px-4 border-b">
+                    <select
+                      // value={booking.status}
+                      // onChange={(e) => handleStatusChange(booking.bookingCode, e.target.value)}
+                      className="border rounded px-2 py-1"
+                    // disabled={loadingBooking !== null}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="confirmed">Confirmed</option>
+                      <option value="rejected">Rejected</option>
+                    </select>
+                  </td>
                 </tr>
               ))
             ) : (

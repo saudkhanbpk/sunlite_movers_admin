@@ -8,21 +8,21 @@ const AddServices = () => {
   const naviagete = useNavigate()
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileName, setFileName] = useState('');
-  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedType, setSelectedType] = useState('Flight Book');
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
-    setFileName(file ? file.name : '');
+    setFileName(file ? file.title : '');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('name', name);
+    formData.append('title', title);
     formData.append('description', description);
     formData.append('selectedType', selectedType);
 
@@ -40,7 +40,7 @@ const AddServices = () => {
         const data = await response.json();
         toast.success(data.msg);
         naviagete('/service_list')
-        setName('');
+        setTitle('');
         setDescription('');
         setSelectedType('Flight Book');
         setFileName('');
@@ -79,10 +79,10 @@ const AddServices = () => {
         <div className="pt-5">
           <input
             type="text"
-            name="name"
+            name="title"
             placeholder="Service Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             className="w-full p-2 mb-4 border rounded"
           />
           <input
@@ -94,7 +94,7 @@ const AddServices = () => {
             className="w-full p-2 mb-4 border rounded"
           />
 
-         
+
         </div>
 
         <button
