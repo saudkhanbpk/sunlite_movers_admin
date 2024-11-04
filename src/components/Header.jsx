@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { FiSearch, FiBell } from 'react-icons/fi';
-import { useLocation } from 'react-router-dom';
-import user from '../assets/img/sam.jpg'
+import { useLocation, useNavigate } from 'react-router-dom';
 const Header = ({ onSearch }) => {
+    const navigate = useNavigate();
     const location = useLocation();
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -40,6 +40,13 @@ const Header = ({ onSearch }) => {
         onSearch(value); // Pass the search term to the parent component
     };
 
+    const handleLogout = () => {
+        // Clear the token from local storage
+        localStorage.removeItem('token');
+        // Redirect to the login page
+        navigate('/login');
+    };
+
     return (
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
             <h1 className="text-2xl font-bold mb-4 md:mb-0">{getTitle()}</h1>
@@ -57,8 +64,11 @@ const Header = ({ onSearch }) => {
                 <button className="p-2 rounded-full bg-gray-200 mr-4">
                     <FiBell size={20} />
                 </button>
-                <div className="w-10 h-10 bg-gray-300 rounded-full">
-                    <img className='w-10 h-10 rounded-full' src={user} />
+                <div className="bg-[#E8F5FE] px-5 py-2 rounded-full shadow-lg flex items-center justify-center">
+                    {/* Replace this with user avatar if available */}
+                    <button onClick={handleLogout} className="text-black font-bold">
+                        Logout
+                    </button>
                 </div>
             </div>
         </div>
