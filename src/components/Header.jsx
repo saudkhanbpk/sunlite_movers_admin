@@ -28,6 +28,8 @@ const Header = ({ onSearch }) => {
                 return 'Booked Services';
             case '/influencers':
                 return 'Influencers';
+            case '/location':
+                return 'Locations';
             default:
                 return 'Dashboard';
         }
