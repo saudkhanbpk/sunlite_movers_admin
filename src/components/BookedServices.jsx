@@ -25,6 +25,15 @@ const BookedServices = () => {
     fetchBookings();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${BaseUrl}/api/service-booking/${id}`)
+      setBookedServices(bookedServices.filter((service) => service._id !== id))
+    } catch (error) {
+      console.log("Error deleteing booking", error)
+    }
+  }
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -32,14 +41,6 @@ const BookedServices = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
-
-  const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
-  };
 
   return (
     <div className="w-full mx-auto p-8 bg-white rounded-xl shadow-lg min-h-screen">
@@ -52,8 +53,10 @@ const BookedServices = () => {
               <th className="py-2 px-4 text-left border-b">Customer Name</th>
               <th className="py-2 px-4 text-left border-b">Adults</th>
               <th className="py-2 px-4 text-left border-b">Children</th>
-              <th className="py-2 px-4 text-left border-b">Price</th>
-              <th className="py-2 px-4 text-left border-b">Status</th>
+              <th className="py-2 px-4 text-left border-b">Phone Number</th>
+              <th className="py-2 px-4 text-left border-b">Action</th>
+
+              {/* <th className="py-2 px-4 text-left border-b">Status</th> */}
             </tr>
           </thead>
           <tbody>
@@ -62,24 +65,29 @@ const BookedServices = () => {
                 <tr key={service._id} className="hover:bg-gray-50">
                   <td className="py-2 px-4 border-b">{service.title}</td>
                   <td className="py-2 px-4 border-b">{service.name}</td>
-                  {/* <td className="py-2 px-4 border-b">{formatDate(service.BookingDate)}</td>
-                  <td className="py-2 px-4 border-b">{formatDate(service.departDate)}</td>
-                  <td className="py-2 px-4 border-b">{formatDate(service.returnDate)}</td> */}
                   <td className="py-2 px-4 border-b">{service.adults}</td>
                   <td className="py-2 px-4 border-b">{service.children}</td>
-                  <td className="py-2 px-4 border-b">{service.price}</td>
+                  <td className="py-2 px-4 border-b">{service.number}</td>
                   <td className="py-2 px-4 border-b">
+                    <button
+                      onClick={() => handleDelete(service._id)}
+                      className="bg-red-500 text-white px-4 py-2 rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
+
+
+                  {/* <td className="py-2 px-4 border-b">
                     <select
-                      // value={booking.status}
-                      // onChange={(e) => handleStatusChange(booking.bookingCode, e.target.value)}
+                     
                       className="border rounded px-2 py-1"
-                    // disabled={loadingBooking !== null}
                     >
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>
                       <option value="rejected">Rejected</option>
                     </select>
-                  </td>
+                  </td> */}
                 </tr>
               ))
             ) : (
