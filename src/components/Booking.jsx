@@ -65,7 +65,9 @@ const Booking = () => {
                             <th className="px-4 py-2 text-left">Name</th>
                             <th className="px-4 py-2 text-left">Booking Code</th>
                             <th className="px-4 py-2 text-left">Package</th>
-                            <th className="px-4 py-2 text-left">Duration</th>
+                            <th className="px-4 py-2 text-left">Days</th>
+                            <th className="px-4 py-2 text-left">Nights</th>
+                            <th className="px-4 py-2 text-left">Hours</th>
                             <th className="px-4 py-2 text-left">Date</th>
                             <th className="px-4 py-2 text-left">Price</th>
                             <th className="px-4 py-2 text-left">Status</th>
@@ -85,7 +87,9 @@ const Booking = () => {
                                         <td className="px-4 py-2">{booking.name}</td>
                                         <td className="px-4 py-2">{booking.bookingCode}</td>
                                         <td className="px-4 py-2">{booking.title}</td>
-                                        <td className="px-4 py-2">{booking.duration}</td>
+                                        <td className="px-4 py-2">{booking.days}</td>
+                                        <td className="px-4 py-2">{booking.nights}</td>
+                                        <td className="px-4 py-2">{booking.hours}</td>
                                         <td className="px-4 py-2">{formattedDate}</td>
                                         <td className="px-4 py-2">{booking.price}</td>
                                         <td className="px-4 py-2">

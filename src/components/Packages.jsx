@@ -84,7 +84,15 @@ function Packages() {
                                     )}
                                     <div className='flex justify-between mt-8'>
                                         <p>Price<br /><a className='text-blue-500 font-bold text-xl'>${pkg.price}</a></p>
-                                        <p>Duration<br />Hour {pkg.duration}</p>
+
+                                    </div>
+                                    <div className='flex justify-between mt-8'>
+                                        <h2>Durations</h2>
+                                        <div className='flex gap-2'>
+                                            <p>Days {pkg.days},</p>
+                                            <p>Nights {pkg.nights},</p>
+                                            <p>Hours {pkg.hours}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

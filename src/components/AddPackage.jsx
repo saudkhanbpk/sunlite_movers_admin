@@ -14,7 +14,9 @@ const AddPackage = () => {
         destination: '',
         locationId: '',
         date: '',
-        duration: '',
+        days: '',
+        nights: '',
+        hours: '',
         price: '',
         description: '',
     });
@@ -23,7 +25,7 @@ const AddPackage = () => {
     const [locations, setLocations] = useState([]);
     const [loading, setLoading] = useState(false);
     const [fileName, setFileName] = useState('');
-    
+
     useEffect(() => {
         const fetchLocations = async () => {
             try {
@@ -56,7 +58,9 @@ const AddPackage = () => {
         formDataToSend.append('destination', formData.destination);
         formDataToSend.append('locationId', formData.locationId);
         formDataToSend.append('date', formData.date);
-        formDataToSend.append('duration', formData.duration);
+        formDataToSend.append('days', formData.days);
+        formDataToSend.append('nights', formData.nights);
+        formDataToSend.append('hours', formData.hours);
         formDataToSend.append('price', formData.price);
         formDataToSend.append('description', formData.description);
         if (selectedFile) {
@@ -143,16 +147,35 @@ const AddPackage = () => {
                         onChange={handleChange}
                         className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-
-                    <input
-                        type="number"
-                        name="duration"
-                        value={formData.duration}
-                        onChange={handleChange}
-                        placeholder="Tour duration"
-                        className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-
+                    <div>
+                        <labe >Tour Duration</labe>
+                        <div className='flex items-center gap-2 mt-3'>
+                            <input
+                                type="number"
+                                name="days"
+                                value={formData.days}
+                                onChange={handleChange}
+                                placeholder="Days"
+                                className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            <input
+                                type="number"
+                                name="nights"
+                                value={formData.nights}
+                                onChange={handleChange}
+                                placeholder="Nights"
+                                className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            <input
+                                type="number"
+                                name="hours"
+                                value={formData.hours}
+                                onChange={handleChange}
+                                placeholder="Hours"
+                                className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                    </div>
                     <input
                         type="number"
                         name="price"

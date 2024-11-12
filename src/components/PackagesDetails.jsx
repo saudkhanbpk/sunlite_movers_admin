@@ -56,7 +56,12 @@ const PackagesDetails = () => {
             <p className='mt-5'>{pkg.description}</p>
             <div className='flex justify-between mt-8'>
                 <p className='text-xl'>Price: <span className='text-blue-500 font-bold'>${pkg.price}</span></p>
-                <p className='text-xl'>Duration: {pkg.duration} {pkg.duration > 1 ? 'Hours' : 'Hour'}</p>
+                <div className='flex gap-2'>
+                    <h2 className='text-xl'>Duration:</h2>
+                    <p className='text-xl'>{pkg.days} {pkg.days > 1 ? 'Days' : 'Day'},</p>
+                    <p className='text-xl'>{pkg.nights} {pkg.nights > 1 ? 'Nights' : 'Nights'},</p>
+                    <p className='text-xl'>{pkg.hours} {pkg.hours > 1 ? 'Hours' : 'Hour'}</p>
+                </div>
             </div>
         </div>
     );

@@ -14,7 +14,9 @@ const UpdatePackage = () => {
         title: pkg.title || '',
         description: pkg.description || '',
         price: pkg.price || '',
-        duration: pkg.duration || '',
+        days: pkg.days || '',
+        nights: pkg.nights || '',
+        hours: pkg.hours || '',
         image: null, // Start with null for image
     });
 
@@ -43,7 +45,9 @@ const UpdatePackage = () => {
         data.append('title', formData.title);
         data.append('description', formData.description);
         data.append('price', formData.price);
-        data.append('duration', formData.duration);
+        data.append('days', formData.days);
+        data.append('nights', formData.nights);
+        data.append('hours', formData.hours);
 
         // Append the file if it exists
         if (formData.image) {
@@ -112,11 +116,33 @@ const UpdatePackage = () => {
                 </div>
 
                 <div>
-                    <label className='block text-lg'>Duration (Hours)</label>
+                    <label className='block text-lg'>Days</label>
                     <input
                         type='number'
-                        name='duration'
-                        value={formData.duration}
+                        name='days'
+                        value={formData.days}
+                        onChange={handleChange}
+                        className='w-full p-2 border border-gray-300 rounded'
+                        required
+                    />
+                </div>
+                <div>
+                    <label className='block text-lg'>Nights</label>
+                    <input
+                        type='number'
+                        name='nights'
+                        value={formData.nights}
+                        onChange={handleChange}
+                        className='w-full p-2 border border-gray-300 rounded'
+                        required
+                    />
+                </div>
+                <div>
+                    <label className='block text-lg'>Hours</label>
+                    <input
+                        type='number'
+                        name='hours'
+                        value={formData.hours}
                         onChange={handleChange}
                         className='w-full p-2 border border-gray-300 rounded'
                         required
