@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { PieChart, Pie, Cell } from 'recharts';
 import { TiInputChecked } from "react-icons/ti";
 import { IoIosPerson } from "react-icons/io";
-import { AiOutlineDollar } from "react-icons/ai";
+import { TbCurrencyDirham } from "react-icons/tb";
 import { FiBell, FiSearch } from 'react-icons/fi';
 import Header from './Header';
 
@@ -48,7 +48,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="bg-[#E8F5FE] p-4 rounded-lg flex items-center">
-                        <AiOutlineDollar className='w-12 h-12 text-[#6AD2FF] mr-4' />
+                        <TbCurrencyDirham className='w-12 h-12 text-[#6AD2FF] mr-4' />
                         <div>
                             <h3 className="text-sm text-[#0000006B]">Total Earnings</h3>
                             <p className="text-2xl sm:text-3xl text-[#000000] font-bold">1200</p>

@@ -91,7 +91,7 @@ const Booking = () => {
                                         <td className="px-4 py-2">{booking.nights}</td>
                                         <td className="px-4 py-2">{booking.hours}</td>
                                         <td className="px-4 py-2">{formattedDate}</td>
-                                        <td className="px-4 py-2">{booking.price}</td>
+                                        <td className="px-4 py-2">AED,{booking.price}</td>
                                         <td className="px-4 py-2">
                                             {loadingBooking === booking.bookingCode ? (
                                                 <div className="text-blue-500">

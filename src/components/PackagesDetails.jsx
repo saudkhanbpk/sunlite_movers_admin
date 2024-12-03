@@ -52,7 +52,7 @@ const PackagesDetails = () => {
             </div>
 
             <h1 className='text-2xl font-bold'>{pkg.title}</h1>
-            <img src={pkg.image} alt={pkg.title} className='w-full rounded-xl pt-6' />
+            <img src={pkg.image[0]} alt={pkg.title} className='w-full rounded-xl pt-6' />
             <p className='mt-5'>{pkg.description}</p>
             <div className='flex justify-between mt-8'>
                 <p className='text-xl'>Price: <span className='text-blue-500 font-bold'>${pkg.price}</span></p>
