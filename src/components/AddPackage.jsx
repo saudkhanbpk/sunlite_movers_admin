@@ -19,10 +19,11 @@ const AddPackage = () => {
     hours: "",
     price: "",
     description: "",
+    startTime: "",
+    endTime: "",
   });
 
   const [selectedFile, setSelectedFile] = useState([]);
-  console.log("selectedFile", selectedFile);
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState("");
@@ -51,9 +52,21 @@ const AddPackage = () => {
     setFileName(files.map((file) => file.name).join(", "));
   };
 
+  // const convertTo12HourFormat = (time) => {
+  //   const [hours, minutes] = time.split(":");
+  //   const hoursInt = parseInt(hours, 10);
+  //   const period = hoursInt >= 12 ? "PM" : "AM";
+  //   const hours12 = hoursInt % 12 || 12;
+  //   return `${hours12}:${minutes} ${period}`;
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("formdata", FormData);
+
+    // Convert times to 12-hour format
+    // const formattedStartTime = convertTo12HourFormat(formData.startTime);
+    // const formattedEndTime = convertTo12HourFormat(formData.endTime);
+
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("destination", formData.destination);
@@ -64,6 +77,8 @@ const AddPackage = () => {
     formDataToSend.append("hours", formData.hours);
     formDataToSend.append("price", formData.price);
     formDataToSend.append("description", formData.description);
+    formDataToSend.append("startTime", formData.startTime);
+    formDataToSend.append("endTime", formData.endTime);
     selectedFile.forEach((file) => {
       formDataToSend.append(`image`, file);
     });
@@ -99,6 +114,7 @@ const AddPackage = () => {
           Create New Package
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* File upload section */}
           <div className="flex justify-center items-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 relative">
             <div className="text-center">
               <BsUpload className="mx-auto h-12 w-12 text-gray-400" />
@@ -120,6 +136,8 @@ const AddPackage = () => {
               Selected file: {fileName}
             </p>
           )}
+
+          {/* Form fields */}
           <input
             type="text"
             name="title"
@@ -160,8 +178,10 @@ const AddPackage = () => {
             onChange={handleChange}
             className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+
+          {/* Tour duration inputs */}
           <div>
-            <labe>Tour Duration</labe>
+            <label>Tour Duration</label>
             <div className="flex items-center gap-2 mt-3">
               <input
                 type="number"
@@ -189,12 +209,13 @@ const AddPackage = () => {
               />
             </div>
           </div>
+
           <input
             type="number"
             name="price"
             value={formData.price}
             onChange={handleChange}
-            placeholder="Price per person"
+            placeholder="Price"
             className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
@@ -206,18 +227,38 @@ const AddPackage = () => {
             className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
           ></textarea>
 
+          {/* Time Slot Inputs */}
+          <div>
+            <label>Time Slot (Optional)</label>
+            <div className="flex items-center gap-2 mt-3">
+              <input
+                type="time"
+                name="startTime"
+                value={formData.startTime}
+                onChange={handleChange}
+                className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <span className="text-gray-600">to</span>
+              <input
+                type="time"
+                name="endTime"
+                value={formData.endTime}
+                onChange={handleChange}
+                className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* Submit button */}
           <button
-            disabled={loading}
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            disabled={loading}
+            className="w-full py-3 bg-blue-500 text-white rounded-md"
           >
             {loading ? (
-              <div className="flex items-center justify-center">
-                <FaSpinner className="animate-spin mr-2" /> {/* Spinner icon */}
-                Processing...
-              </div>
+              <FaSpinner className="animate-spin mx-auto" />
             ) : (
-              "Create now"
+              "Add Package"
             )}
           </button>
         </form>

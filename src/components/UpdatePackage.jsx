@@ -8,6 +8,7 @@ import { FaSpinner } from "react-icons/fa";
 const UpdatePackage = () => {
   const location = useLocation();
   const pkg = location.state;
+  console.log("pkg", pkg);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -19,6 +20,7 @@ const UpdatePackage = () => {
     hours: pkg.hours || "",
     image: [],
   });
+  console.log("formData", formData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,7 +44,6 @@ const UpdatePackage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
-    // Append form fields to FormData
     data.append("title", formData.title);
     data.append("description", formData.description);
     data.append("price", formData.price);
@@ -50,9 +51,8 @@ const UpdatePackage = () => {
     data.append("nights", formData.nights);
     data.append("hours", formData.hours);
 
-    // Append the file if it exists
     formData.image.forEach((image) => {
-      data.append("image", image); // 'images' is the field name for multiple files
+      data.append("image", image);
     });
     setLoading(true);
 
@@ -163,10 +163,11 @@ const UpdatePackage = () => {
             multiple
             onChange={handleFileChange}
             className="w-full p-2 border border-gray-300 rounded"
+            required
           />
           {formData.image && (
             <p className="mt-1 text-gray-500">
-              Image Name: {getImageName(formData.image)}
+              Image Name: {getImageName(formData.image[0])}
             </p>
           )}
         </div>

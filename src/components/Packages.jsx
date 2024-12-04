@@ -8,7 +8,6 @@ import { BaseUrl } from "../BaseUrl";
 function Packages() {
   const navigate = useNavigate();
   const [packages, setPackages] = useState([]);
-  console.log("packages", packages);
   const [loading, setLoading] = useState(true);
   const [showFullDescription, setShowFullDescription] = useState({});
 
@@ -102,7 +101,7 @@ function Packages() {
                       Price
                       <br />
                       <a className="text-blue-500 font-bold text-xl">
-                        AED,{pkg.price}
+                        AED {pkg.price}
                       </a>
                     </p>
                   </div>
@@ -131,7 +130,7 @@ function Packages() {
                 className="flex gap-2 bg-white rounded-xl p-2 mb-2"
               >
                 <img
-                  src={pkg.image}
+                  src={pkg.image[0]}
                   alt={pkg.title}
                   className="w-24 h-16 object-cover rounded-xl"
                 />
