@@ -84,9 +84,16 @@ function Packages() {
                 <div className="md:w-[400px] p-2">
                   <h1 className="text-2xl font-bold">{pkg.title}</h1>
                   <p className="mt-5">
-                    {showFullDescription[pkg.id]
-                      ? pkg.description
-                      : getShortDescription(pkg.description)}
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: showFullDescription[pkg.id]
+                          ? pkg.description.replace(/\n/g, "<br />")
+                          : getShortDescription(pkg.description).replace(
+                              /\n/g,
+                              "<br />"
+                            ),
+                      }}
+                    />
                   </p>
                   {pkg.description.split(" ").length > 20 && (
                     <button
@@ -96,6 +103,7 @@ function Packages() {
                       {showFullDescription[pkg.id] ? "View Less" : "View All"}
                     </button>
                   )}
+
                   <div className="flex justify-between mt-8">
                     <p>
                       Price
