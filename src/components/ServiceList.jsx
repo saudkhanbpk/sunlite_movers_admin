@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Truck, Home, Plane, MapPin } from 'lucide-react';
-import { BaseUrl } from '../BaseUrl';
-import { MdOutlineDeleteOutline } from 'react-icons/md';
-import { FaRegEdit } from 'react-icons/fa';
-import { toast } from 'react-toastify';
-import { FiSearch } from 'react-icons/fi';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Truck, Home, Plane, MapPin } from "lucide-react";
+import { BaseUrl } from "../BaseUrl";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { FiSearch } from "react-icons/fi";
 
 const ServiceList = () => {
   const [services, setServices] = useState([]);
   const [editService, setEditService] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [expandedServiceId, setExpandedServiceId] = useState(null);
   const [visibleCount, setVisibleCount] = useState(6);
 
@@ -19,13 +19,13 @@ const ServiceList = () => {
     try {
       const response = await fetch(`${BaseUrl}/api/services`);
       if (!response.ok) {
-        throw new Error('Failed to fetch services');
+        throw new Error("Failed to fetch services");
       }
       const data = await response.json();
       setServices(data);
-      console.log('Fetched Services:', data);
+      console.log("Fetched Services:", data);
     } catch (error) {
-      console.error('Error fetching services:', error);
+      console.error("Error fetching services:", error);
     }
   };
 
@@ -36,19 +36,21 @@ const ServiceList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(`${BaseUrl}/api/services/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (!response.ok) {
-        throw new Error('Failed to delete service');
+        throw new Error("Failed to delete service");
       }
 
       const result = await response.json();
       toast.success(result.msg);
 
-      setServices((prevServices) => prevServices.filter((service) => service._id !== id));
+      setServices((prevServices) =>
+        prevServices.filter((service) => service._id !== id)
+      );
     } catch (error) {
-      console.error('Error deleting service:', error);
+      console.error("Error deleting service:", error);
     }
   };
 
@@ -61,22 +63,25 @@ const ServiceList = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('name', editService.name);
-    formData.append('description', editService.description);
-    formData.append('selectedType', editService.selectedType);
+    formData.append("name", editService.name);
+    formData.append("description", editService.description);
+    formData.append("selectedType", editService.selectedType);
 
     if (e.target.image.files[0]) {
-      formData.append('image', e.target.image.files[0]);
+      formData.append("image", e.target.image.files[0]);
     }
 
     try {
-      const response = await fetch(`${BaseUrl}/api/services/${editService._id}`, {
-        method: 'PUT',
-        body: formData,
-      });
+      const response = await fetch(
+        `${BaseUrl}/api/services/${editService._id}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to update service');
+        throw new Error("Failed to update service");
       }
 
       const result = await response.json();
@@ -85,19 +90,19 @@ const ServiceList = () => {
       setIsModalOpen(false);
       fetchServices();
     } catch (error) {
-      console.error('Error updating service:', error);
+      console.error("Error updating service:", error);
     }
   };
 
   const getServiceIcon = (type) => {
     switch (type.trim().toLowerCase()) {
-      case 'transport':
+      case "transport":
         return <Truck size={24} />;
-      case 'accommodation':
+      case "accommodation":
         return <Home size={24} />;
-      case 'flight':
+      case "flight":
         return <Plane size={24} />;
-      case 'guide tour':
+      case "guide tour":
         return <MapPin size={24} />;
       default:
         return null;
@@ -105,10 +110,14 @@ const ServiceList = () => {
   };
 
   const filteredServices = services.filter((service) => {
-    const serviceName = service.name ? service.name.toLowerCase().trim() : '';
-    const serviceType = service.selectedType ? service.selectedType.toLowerCase().trim() : '';
+    const serviceName = service.name ? service.name.toLowerCase().trim() : "";
+    const serviceType = service.selectedType
+      ? service.selectedType.toLowerCase().trim()
+      : "";
     const searchLower = searchQuery.toLowerCase().trim();
-    return serviceName.includes(searchLower) || serviceType.includes(searchLower);
+    return (
+      serviceName.includes(searchLower) || serviceType.includes(searchLower)
+    );
   });
 
   const handleShowMore = () => {
@@ -127,7 +136,10 @@ const ServiceList = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full md:w-64 pl-10 pr-4 py-2 rounded-full border focus:outline-none focus:border-blue-500"
         />
-        <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+        <FiSearch
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          size={20}
+        />
       </div>
 
       <div className="flex justify-end mb-6">
@@ -149,10 +161,16 @@ const ServiceList = () => {
               <div className="flex items-center justify-between mb-4">
                 <div>{getServiceIcon(service.selectedType)}</div>
                 <div className="flex items-center gap-2 text-[20px]">
-                  <div className="text-yellow-300 cursor-pointer" onClick={() => handleEdit(service)}>
+                  <div
+                    className="text-yellow-300 cursor-pointer"
+                    onClick={() => handleEdit(service)}
+                  >
                     <FaRegEdit />
                   </div>
-                  <div className="text-red-500 cursor-pointer" onClick={() => handleDelete(service._id)}>
+                  <div
+                    className="text-red-500 cursor-pointer"
+                    onClick={() => handleDelete(service._id)}
+                  >
                     <MdOutlineDeleteOutline />
                   </div>
                 </div>
@@ -170,14 +188,34 @@ const ServiceList = () => {
               <div>
                 <p className="font-bold text-lg">{service.title}</p>
                 <p className="pt-3 text-sm">
-                  Description:{' '}
-                  {expandedServiceId === service._id ? service.description : `${service.description.slice(0, 120)}...`}
+                  Description:{" "}
+                  {expandedServiceId === service._id ? (
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: service.description.replace(/\n/g, "<br />"),
+                      }}
+                    />
+                  ) : (
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: `${service.description
+                          .slice(0, 120)
+                          .replace(/\n/g, "<br />")}...`,
+                      }}
+                    />
+                  )}
                   {service.description.length > 120 && (
                     <button
                       className="text-blue-500"
-                      onClick={() => setExpandedServiceId(expandedServiceId === service._id ? null : service._id)}
+                      onClick={() =>
+                        setExpandedServiceId(
+                          expandedServiceId === service._id ? null : service._id
+                        )
+                      }
                     >
-                      {expandedServiceId === service._id ? 'View Less' : 'View More'}
+                      {expandedServiceId === service._id
+                        ? "View Less"
+                        : "View More"}
                     </button>
                   )}
                 </p>
@@ -211,8 +249,10 @@ const ServiceList = () => {
                 <input
                   type="text"
                   className="w-full p-2 border border-gray-300 rounded"
-                  value={editService?.title || ''}
-                  onChange={(e) => setEditService({ ...editService, title: e.target.value })}
+                  value={editService?.title || ""}
+                  onChange={(e) =>
+                    setEditService({ ...editService, title: e.target.value })
+                  }
                 />
               </div>
 
@@ -220,14 +260,24 @@ const ServiceList = () => {
                 <label className="block text-gray-700">Description:</label>
                 <textarea
                   className="w-full p-2 border border-gray-300 rounded"
-                  value={editService?.description || ''}
-                  onChange={(e) => setEditService({ ...editService, description: e.target.value })}
+                  value={editService?.description || ""}
+                  onChange={(e) =>
+                    setEditService({
+                      ...editService,
+                      description: e.target.value,
+                    })
+                  }
                 />
               </div>
 
               <div className="mb-4">
                 <label className="block text-gray-700">Upload Image:</label>
-                <input type="file" required name="image" className="border border-gray-300 rounded p-2 w-full" />
+                <input
+                  type="file"
+                  required
+                  name="image"
+                  className="border border-gray-300 rounded p-2 w-full"
+                />
               </div>
 
               <div className="flex justify-end">
