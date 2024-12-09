@@ -70,6 +70,7 @@ const AddServices = () => {
             className="absolute inset-0 opacity-0 cursor-pointer"
             accept="image/*"
             onChange={handleFileChange}
+            required
           />
         </div>
         {fileName && (

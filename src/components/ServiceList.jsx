@@ -227,7 +227,7 @@ const ServiceList = () => {
 
               <div className="mb-4">
                 <label className="block text-gray-700">Upload Image:</label>
-                <input type="file" name="image" className="border border-gray-300 rounded p-2 w-full" />
+                <input type="file" required name="image" className="border border-gray-300 rounded p-2 w-full" />
               </div>
 
               <div className="flex justify-end">

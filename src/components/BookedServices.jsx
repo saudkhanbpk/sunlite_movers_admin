@@ -53,6 +53,7 @@ const BookedServices = () => {
               <th className="py-2 px-4 text-left border-b">Customer Name</th>
               <th className="py-2 px-4 text-left border-b">Adults</th>
               <th className="py-2 px-4 text-left border-b">Children</th>
+              <th className="py-2 px-4 text-left border-b">Email</th>
               <th className="py-2 px-4 text-left border-b">Phone Number</th>
               <th className="py-2 px-4 text-left border-b">Action</th>
 
@@ -67,6 +68,7 @@ const BookedServices = () => {
                   <td className="py-2 px-4 border-b">{service.name}</td>
                   <td className="py-2 px-4 border-b">{service.adults}</td>
                   <td className="py-2 px-4 border-b">{service.children}</td>
+                  <td className="py-2 px-4 border-b">{service.email}</td>
                   <td className="py-2 px-4 border-b">{service.number}</td>
                   <td className="py-2 px-4 border-b">
                     <button

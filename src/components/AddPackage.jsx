@@ -21,6 +21,9 @@ const AddPackage = () => {
     description: "",
     startTime: "",
     endTime: "",
+    policy: "",
+    pickupTime: "",
+    dropoffTime: "",
   });
 
   const [selectedFile, setSelectedFile] = useState([]);
@@ -52,21 +55,8 @@ const AddPackage = () => {
     setFileName(files.map((file) => file.name).join(", "));
   };
 
-  // const convertTo12HourFormat = (time) => {
-  //   const [hours, minutes] = time.split(":");
-  //   const hoursInt = parseInt(hours, 10);
-  //   const period = hoursInt >= 12 ? "PM" : "AM";
-  //   const hours12 = hoursInt % 12 || 12;
-  //   return `${hours12}:${minutes} ${period}`;
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Convert times to 12-hour format
-    // const formattedStartTime = convertTo12HourFormat(formData.startTime);
-    // const formattedEndTime = convertTo12HourFormat(formData.endTime);
-
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("destination", formData.destination);
@@ -79,6 +69,9 @@ const AddPackage = () => {
     formDataToSend.append("description", formData.description);
     formDataToSend.append("startTime", formData.startTime);
     formDataToSend.append("endTime", formData.endTime);
+    formDataToSend.append("policy", formData.policy);
+    formDataToSend.append("pickupTime", formData.pickupTime);
+    formDataToSend.append("dropoffTime", formData.dropoffTime);
     selectedFile.forEach((file) => {
       formDataToSend.append(`image`, file);
     });
@@ -248,8 +241,42 @@ const AddPackage = () => {
               />
             </div>
           </div>
+          <div>
+            <label>Pick up & Drop off Timings</label>
+            <div className="pt-4 flex items-center gap-2">
+              <input
+                type="time"
+                name="pickupTime"
+                value={formData.pickupTime}
+                placeholder="Pick up"
+                onChange={handleChange}
+                className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <span>to</span>
+              <input
+                type="time"
+                name="dropoffTime"
+                value={formData.dropoffTime}
+                placeholder="Drop"
+                onChange={handleChange}
+                className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+          <div>
+            <label>Booking Terms</label>
+            <div className="pt-4">
+              <input
+                type="text"
+                name="policy"
+                value={formData.policy}
+                placeholder="Policy"
+                onChange={handleChange}
+                className="w-full py-3 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
 
-          {/* Submit button */}
           <button
             type="submit"
             disabled={loading}
