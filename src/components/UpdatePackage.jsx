@@ -8,18 +8,23 @@ import { FaSpinner } from "react-icons/fa";
 const UpdatePackage = () => {
   const location = useLocation();
   const pkg = location.state;
-  console.log("pkg", pkg);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: pkg.title || "",
     description: pkg.description || "",
     price: pkg.price || "",
-    days: pkg.days || "",
-    nights: pkg.nights || "",
-    hours: pkg.hours || "",
-    image: [],
+    days: pkg.days || 0,
+    nights: pkg.nights || 0,
+    hours: pkg.hours || 0,
+    startTime: pkg.startTime || "",
+    endTime: pkg.endTime || "",
+    pickupTime: pkg.pickupTime || "",
+    dropoffTime: pkg.dropoffTime || "",
+    policy: pkg.policy || "",
+    image: [pkg.image],
   });
+
   console.log("formData", formData);
 
   const handleChange = (e) => {
@@ -50,6 +55,11 @@ const UpdatePackage = () => {
     data.append("days", formData.days);
     data.append("nights", formData.nights);
     data.append("hours", formData.hours);
+    data.append("startTime", formData.startTime);
+    data.append("endTime", formData.endTime);
+    data.append("pickupTime", formData.pickupTime);
+    data.append("dropoffTime", formData.dropoffTime);
+    data.append("policy", formData.policy);
 
     formData.image.forEach((image) => {
       data.append("image", image);
@@ -76,10 +86,6 @@ const UpdatePackage = () => {
         error.response?.data?.message || "Failed to update the package";
       toast.error(errorMessage);
     }
-  };
-
-  const getImageName = (file) => {
-    return file ? file.name : "";
   };
 
   return (
@@ -154,6 +160,61 @@ const UpdatePackage = () => {
             required
           />
         </div>
+        <div>
+          <label className="block text-lg">Start Time</label>
+          <input
+            type="time"
+            name="startTime"
+            value={formData.startTime}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-lg">End Time</label>
+          <input
+            type="time"
+            name="endTime"
+            value={formData.endTime}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-lg">Pickup Time</label>
+          <input
+            type="time"
+            name="pickupTime"
+            value={formData.pickupTime}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-lg">Drop off Time</label>
+          <input
+            type="time"
+            name="dropoffTime"
+            value={formData.dropoffTime}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-lg">Booking Policy</label>
+          <input
+            type="text"
+            name="policy"
+            value={formData.policy}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
 
         <div>
           <label className="block text-lg">Upload Image</label>
@@ -165,22 +226,22 @@ const UpdatePackage = () => {
             className="w-full p-2 border border-gray-300 rounded"
             required
           />
-          {formData.image && (
-            <p className="mt-1 text-gray-500">
-              Image Name: {getImageName(formData.image[0])}
-            </p>
+          {formData.image && Array.isArray(formData.image) && (
+            <div className="mt-1 text-gray-500">
+              <p>Images:</p>
+              <div className="flex flex-wrap gap-2">
+                {formData.image.flat().map((file, index) => (
+                  <img
+                    key={index}
+                    src={file}
+                    alt={`Uploaded file ${index + 1}`}
+                    className="w-16 h-16 object-cover border rounded"
+                  />
+                ))}
+              </div>
+            </div>
           )}
         </div>
-
-        {formData.image.length > 0 && (
-          <div className="mt-2">
-            {formData.image.map((file, index) => (
-              <p key={index} className="text-gray-500">
-                Image {index + 1}: {getImageName(file)}
-              </p>
-            ))}
-          </div>
-        )}
 
         <div className="flex justify-end">
           <button

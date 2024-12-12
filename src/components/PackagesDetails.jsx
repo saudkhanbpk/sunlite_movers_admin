@@ -30,6 +30,7 @@ const PackagesDetails = () => {
   const handleUpdate = () => {
     navigate("/update-package", { state: pkg });
   };
+  
 
   if (!pkg) {
     return <p>Loading package details...</p>;
@@ -69,9 +70,23 @@ const PackagesDetails = () => {
       <div className="pt-5">
         <h2 className="text-md">Timings:</h2>
         <div className="flex items-center gap-1">
-          <p className="">{pkg.startTime}</p>
+          <p className="">{pkg.startTime || 0}</p>
           <p>to</p>
-          <p className="">{pkg.endTime}</p>
+          <p className="">{pkg.endTime || 0}</p>
+        </div>
+      </div>
+      <div className="pt-5">
+        <h2 className="text-md">Pick up And Drop off Timings:</h2>
+        <div className="pt-3">
+          <p className="">Pick up Time: {pkg.pickupTime || 0}</p>
+          {/* <p>to</p> */}
+          <p className="">Drop off Time: {pkg.dropoffTime || 0}</p>
+        </div>
+      </div>
+      <div className="pt-5">
+        <h2 className="text-md">Booking Policy:</h2>
+        <div className="pt-3">
+          <p className="">Policy: {pkg.policy}</p>
         </div>
       </div>
 
@@ -83,13 +98,13 @@ const PackagesDetails = () => {
         <div className="flex gap-2">
           <h2 className="text-xl">Duration:</h2>
           <p className="text-xl">
-            {pkg.days} {pkg.days > 1 ? "Days" : "Day"},
+            {pkg.days || 0} {pkg.days > 1 ? "Days" : "Day"},
           </p>
           <p className="text-xl">
-            {pkg.nights} {pkg.nights > 1 ? "Nights" : "Nights"},
+            {pkg.nights || 0} {pkg.nights > 1 ? "Nights" : "Nights"},
           </p>
           <p className="text-xl">
-            {pkg.hours} {pkg.hours > 1 ? "Hours" : "Hour"}
+            {pkg.hours || 0} {pkg.hours > 1 ? "Hours" : "Hour"}
           </p>
         </div>
       </div>
