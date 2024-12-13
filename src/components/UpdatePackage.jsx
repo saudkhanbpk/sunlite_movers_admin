@@ -10,6 +10,7 @@ const UpdatePackage = () => {
   const pkg = location.state;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [formData, setFormData] = useState({
     title: pkg.title || "",
     description: pkg.description || "",
@@ -37,6 +38,7 @@ const UpdatePackage = () => {
 
   const handleFileChange = (e) => {
     const files = e.target.files;
+    setSelectedFile(files);
     if (files) {
       const filesArray = Array.from(files);
       setFormData((prevData) => ({
@@ -61,9 +63,11 @@ const UpdatePackage = () => {
     data.append("dropoffTime", formData.dropoffTime);
     data.append("policy", formData.policy);
 
-    formData.image.forEach((image) => {
-      data.append("image", image);
-    });
+    if (selectedFile)
+      formData.image.forEach((image) => {
+        data.append("image", image);
+      });
+
     setLoading(true);
 
     try {
@@ -224,7 +228,6 @@ const UpdatePackage = () => {
             multiple
             onChange={handleFileChange}
             className="w-full p-2 border border-gray-300 rounded"
-            required
           />
           {formData.image && Array.isArray(formData.image) && (
             <div className="mt-1 text-gray-500">
