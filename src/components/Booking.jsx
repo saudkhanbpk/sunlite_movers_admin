@@ -165,6 +165,9 @@ const Booking = () => {
               <strong>Name:</strong> {selectedBooking.name}
             </p>
             <p>
+              <strong>Email:</strong> {selectedBooking.email}
+            </p>
+            <p>
               <strong>Package:</strong> {selectedBooking.title}
             </p>
             <p>
