@@ -178,6 +178,9 @@ const Booking = () => {
               <strong>Price:</strong> AED {selectedBooking.price}
             </p>
             <p>
+              <strong>Infants:</strong> {selectedBooking.infants || 0}
+            </p>
+            <p>
               <strong>Children:</strong> {selectedBooking.children}
             </p>
             <p>
