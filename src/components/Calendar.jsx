@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css'; // Import CSS for BigCalendar
+import Header from '../components/Header';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-// Set up the localizer using moment.js
 const localizer = momentLocalizer(moment);
 
 const events = [
-  // Example event data
   {
     id: 0,
     title: 'Board Meeting',
@@ -36,6 +35,7 @@ const Calendar = () => {
 
   return (
     <div className="p-4 max-w-6xl mx-auto  rounded-lg shadow-md">
+    <Header />
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">
           {moment(date).format('MMMM YYYY')}

@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { BaseUrl } from '../BaseUrl';
-import Header from './Header';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { BaseUrl } from "../BaseUrl";
+import Header from "./Header";
 
 const BookedServices = () => {
   const [bookedServices, setBookedServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  console.log('bookedServices', bookedServices);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredBookingServices, setFilteredBookingServices] = useState([]);
 
-  // Fetch data from the backend API
   useEffect(() => {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(`${BaseUrl}/api/service-booking`);
         setBookedServices(response.data);
+        setFilteredBookingServices(response.data);
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -24,15 +25,22 @@ const BookedServices = () => {
 
     fetchBookings();
   }, []);
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    const filtered = bookedServices.filter((service) =>
+      service.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredBookingServices(filtered);
+  };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${BaseUrl}/api/service-booking/${id}`)
-      setBookedServices(bookedServices.filter((service) => service._id !== id))
+      await axios.delete(`${BaseUrl}/api/service-booking/${id}`);
+      setBookedServices(bookedServices.filter((service) => service._id !== id));
     } catch (error) {
-      console.log("Error deleteing booking", error)
+      console.log("Error deleteing booking", error);
     }
-  }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -44,7 +52,7 @@ const BookedServices = () => {
 
   return (
     <div className="w-full mx-auto p-8 bg-white rounded-xl shadow-lg min-h-screen">
-      <Header />
+      <Header onSearch={handleSearch} />
       <div className="overflow-x-auto rounded-md">
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
@@ -61,8 +69,8 @@ const BookedServices = () => {
             </tr>
           </thead>
           <tbody>
-            {bookedServices.length > 0 ? (
-              bookedServices.map((service) => (
+            {filteredBookingServices.length > 0 ? (
+              filteredBookingServices.map((service) => (
                 <tr key={service._id} className="hover:bg-gray-50">
                   <td className="py-2 px-4 border-b">{service.title}</td>
                   <td className="py-2 px-4 border-b">{service.name}</td>
@@ -78,7 +86,6 @@ const BookedServices = () => {
                       Delete
                     </button>
                   </td>
-
 
                   {/* <td className="py-2 px-4 border-b">
                     <select

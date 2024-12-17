@@ -10,12 +10,15 @@ function Packages() {
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFullDescription, setShowFullDescription] = useState({});
+  const [filteredPackages, setFilteredPackages] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchPackages = async () => {
       try {
         const response = await axios.get(`${BaseUrl}/api/getpackages`);
         setPackages(response.data.packages);
+        setFilteredPackages(response.data.packages);
       } catch (error) {
         console.log(error);
       } finally {
@@ -24,6 +27,14 @@ function Packages() {
     };
     fetchPackages();
   }, []);
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    const filtered = packages.filter((pkg) =>
+      pkg.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredPackages(filtered);
+  };
 
   const handleNewPackage = () => {
     navigate("/add_package");
@@ -49,7 +60,7 @@ function Packages() {
 
   return (
     <div className="w-full p-8">
-      <Header />
+      <Header onSearch={handleSearch} />
       <div className="md:flex gap-4">
         <div className="md:w-2/3">
           <div className="flex justify-between">
@@ -68,8 +79,8 @@ function Packages() {
             <div className="flex justify-center items-center h-64">
               <div className="loader"></div>
             </div>
-          ) : (
-            packages.map((pkg, ind) => (
+          ) : filteredPackages.length > 0 ? (
+            filteredPackages.map((pkg, ind) => (
               <div
                 key={ind}
                 className="w-full bg-gray-100 p-3 mt-2 rounded-xl md:flex gap-3"
@@ -103,7 +114,6 @@ function Packages() {
                       {showFullDescription[pkg.id] ? "View Less" : "View All"}
                     </button>
                   )}
-
                   <div className="flex justify-between mt-8">
                     <p>
                       Price
@@ -113,17 +123,11 @@ function Packages() {
                       </a>
                     </p>
                   </div>
-                  <div className="flex justify-between mt-8">
-                    <h2>Durations</h2>
-                    <div className="flex gap-2">
-                      <p>Days {pkg.days},</p>
-                      <p>Nights {pkg.nights},</p>
-                      <p>Hours {pkg.hours}</p>
-                    </div>
-                  </div>
                 </div>
               </div>
             ))
+          ) : (
+            <div>No packages found!</div>
           )}
         </div>
 

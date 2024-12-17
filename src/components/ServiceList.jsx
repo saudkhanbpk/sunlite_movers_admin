@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Truck, Home, Plane, MapPin } from "lucide-react";
 import { BaseUrl } from "../BaseUrl";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { FiSearch } from "react-icons/fi";
+import Header from "./Header";
 
 const ServiceList = () => {
   const [services, setServices] = useState([]);
@@ -13,6 +12,7 @@ const ServiceList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedServiceId, setExpandedServiceId] = useState(null);
+  const [serviceFilter, setServiceFilters] = useState([]);
   const [visibleCount, setVisibleCount] = useState(6);
 
   const fetchServices = async () => {
@@ -23,6 +23,7 @@ const ServiceList = () => {
       }
       const data = await response.json();
       setServices(data);
+      setServiceFilters(data);
       console.log("Fetched Services:", data);
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -32,6 +33,14 @@ const ServiceList = () => {
   useEffect(() => {
     fetchServices();
   }, []);
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    const filtered = services.filter((service) =>
+      service.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setServiceFilters(filtered);
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -94,55 +103,14 @@ const ServiceList = () => {
     }
   };
 
-  const getServiceIcon = (type) => {
-    switch (type.trim().toLowerCase()) {
-      case "transport":
-        return <Truck size={24} />;
-      case "accommodation":
-        return <Home size={24} />;
-      case "flight":
-        return <Plane size={24} />;
-      case "guide tour":
-        return <MapPin size={24} />;
-      default:
-        return null;
-    }
-  };
-
-  const filteredServices = services.filter((service) => {
-    const serviceName = service.name ? service.name.toLowerCase().trim() : "";
-    const serviceType = service.selectedType
-      ? service.selectedType.toLowerCase().trim()
-      : "";
-    const searchLower = searchQuery.toLowerCase().trim();
-    return (
-      serviceName.includes(searchLower) || serviceType.includes(searchLower)
-    );
-  });
-
   const handleShowMore = () => {
     setVisibleCount((prevCount) => prevCount + 6);
   };
 
   return (
     <div className="max-w-5xl mx-auto p-4 rounded-xl min-h-screen">
-      <h2 className="text-2xl font-bold mb-8 text-gray-800">Service List</h2>
-
-      <div className="relative mb-6">
-        <input
-          type="text"
-          placeholder="Search by name or type"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full md:w-64 pl-10 pr-4 py-2 rounded-full border focus:outline-none focus:border-blue-500"
-        />
-        <FiSearch
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-          size={20}
-        />
-      </div>
-
-      <div className="flex justify-end mb-6">
+      <Header onSearch={handleSearch} />
+      <div className="flex justify-end">
         <Link
           to="/add_services"
           className="bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out font-semibold"
@@ -151,15 +119,14 @@ const ServiceList = () => {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {filteredServices.slice(0, visibleCount).length > 0 ? (
-          filteredServices.slice(0, visibleCount).map((service) => (
+      <div className="grid grid-cols-1 mt-10 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        {serviceFilter.slice(0, visibleCount).length > 0 ? (
+          serviceFilter.slice(0, visibleCount).map((service) => (
             <div
               key={service._id}
               className="cursor-pointer p-4 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 bg-gray-100 text-gray-800 shadow-md"
             >
               <div className="flex items-center justify-between mb-4">
-                <div>{getServiceIcon(service.selectedType)}</div>
                 <div className="flex items-center gap-2 text-[20px]">
                   <div
                     className="text-yellow-300 cursor-pointer"
@@ -227,7 +194,7 @@ const ServiceList = () => {
         )}
       </div>
 
-      {filteredServices.length > visibleCount && (
+      {serviceFilter.length > visibleCount && (
         <div className="flex justify-center mb-6">
           <button
             onClick={handleShowMore}

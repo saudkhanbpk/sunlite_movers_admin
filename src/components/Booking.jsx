@@ -6,17 +6,18 @@ import { toast } from "react-toastify";
 import { FaSpinner } from "react-icons/fa";
 const Booking = () => {
   const [bookingData, setBookingData] = useState([]);
-  console.log("bookingData", bookingData);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
   const [loadingBooking, setLoadingBooking] = useState(null);
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   useEffect(() => {
     const fetchBooking = async () => {
       try {
         const response = await axios.get(`${BaseUrl}/api/bookings`);
         setBookingData(response.data);
+        setFilteredData(response.data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -25,6 +26,16 @@ const Booking = () => {
     };
     fetchBooking();
   }, []);
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    const filtered = bookingData.filter(
+      (booking) =>
+        booking.name.toLowerCase().includes(query.toLowerCase()) ||
+        booking.bookingCode.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
 
   const updateBookingStatus = async (bookingCode, newStatus) => {
     setLoadingBooking(bookingCode);
@@ -52,18 +63,6 @@ const Booking = () => {
     updateBookingStatus(bookingCode, newStatus);
   };
 
-  const filteredBookings = bookingData.filter(
-    (booking) =>
-      booking.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      booking.bookingCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      booking.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      booking.price
-        .toString()
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      booking.duration.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   const handleRowClick = (booking) => {
     setSelectedBooking(booking);
     setShowPopup(true);
@@ -76,7 +75,7 @@ const Booking = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Header onSearch={setSearchTerm} searchTerm={searchTerm} />
+      <Header onSearch={handleSearch} />
       <div className="overflow-x-auto bg-white rounded-lg shadow">
         <table className="w-full table-auto text-[15px]">
           <thead className="bg-[#E8F5FE]">
@@ -90,8 +89,8 @@ const Booking = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredBookings.length > 0 ? (
-              filteredBookings.map((booking) => {
+            {filteredData.length > 0 ? (
+              filteredData.map((booking) => {
                 const formattedDate = new Date(booking.date).toLocaleDateString(
                   "en-US",
                   {
