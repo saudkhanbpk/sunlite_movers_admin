@@ -14,8 +14,8 @@ const BookedServices = () => {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(`${BaseUrl}/api/service-booking`);
-        setBookedServices(response.data);
-        setFilteredBookingServices(response.data);
+        setBookedServices(response.data.bookings);
+        setFilteredBookingServices(response.data.bookings);
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -64,8 +64,6 @@ const BookedServices = () => {
               <th className="py-2 px-4 text-left border-b">Email</th>
               <th className="py-2 px-4 text-left border-b">Phone Number</th>
               <th className="py-2 px-4 text-left border-b">Action</th>
-
-              {/* <th className="py-2 px-4 text-left border-b">Status</th> */}
             </tr>
           </thead>
           <tbody>
@@ -86,17 +84,6 @@ const BookedServices = () => {
                       Delete
                     </button>
                   </td>
-
-                  {/* <td className="py-2 px-4 border-b">
-                    <select
-                     
-                      className="border rounded px-2 py-1"
-                    >
-                      <option value="pending">Pending</option>
-                      <option value="confirmed">Confirmed</option>
-                      <option value="rejected">Rejected</option>
-                    </select>
-                  </td> */}
                 </tr>
               ))
             ) : (
