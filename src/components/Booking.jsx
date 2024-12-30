@@ -83,7 +83,7 @@ const Booking = () => {
               <th className="px-4 py-2 text-left">Booking Code</th>
               <th className="px-4 py-2 text-left">Name</th>
               <th className="px-4 py-2 text-left">Package</th>
-              <th className="px-4 py-2 text-left">Date</th>
+              <th className="px-4 py-2 text-left">Booking Date</th>
               <th className="px-4 py-2 text-left">Price</th>
               <th className="px-4 py-2 text-left">Status</th>
             </tr>
@@ -91,7 +91,7 @@ const Booking = () => {
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((booking) => {
-                const formattedDate = new Date(booking.date).toLocaleDateString(
+                const formattedDate = new Date(booking.bookingDate).toLocaleDateString(
                   "en-US",
                   {
                     year: "numeric",

@@ -60,6 +60,7 @@ const BookedServices = () => {
               <th className="py-2 px-4 text-left border-b">Service Name</th>
               <th className="py-2 px-4 text-left border-b">Customer Name</th>
               <th className="py-2 px-4 text-left border-b">Adults</th>
+              <th className="py-2 px-4 text-left border-b">Booking Date</th>
               <th className="py-2 px-4 text-left border-b">Children</th>
               <th className="py-2 px-4 text-left border-b">Email</th>
               <th className="py-2 px-4 text-left border-b">Phone Number</th>
@@ -68,24 +69,34 @@ const BookedServices = () => {
           </thead>
           <tbody>
             {filteredBookingServices.length > 0 ? (
-              filteredBookingServices.map((service) => (
-                <tr key={service._id} className="hover:bg-gray-50">
-                  <td className="py-2 px-4 border-b">{service.title}</td>
-                  <td className="py-2 px-4 border-b">{service.name}</td>
-                  <td className="py-2 px-4 border-b">{service.adults}</td>
-                  <td className="py-2 px-4 border-b">{service.children}</td>
-                  <td className="py-2 px-4 border-b">{service.email}</td>
-                  <td className="py-2 px-4 border-b">{service.number}</td>
-                  <td className="py-2 px-4 border-b">
-                    <button
-                      onClick={() => handleDelete(service._id)}
-                      className="bg-red-500 text-white px-4 py-2 rounded"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))
+              filteredBookingServices.map((service) => {
+                const formattedDate = new Date(
+                  service.bookingDate
+                ).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                });
+                return (
+                  <tr key={service._id} className="hover:bg-gray-50">
+                    <td className="py-2 px-4 border-b">{service.title}</td>
+                    <td className="py-2 px-4 border-b">{service.name}</td>
+                    <td className="py-2 px-4 border-b">{service.adults}</td>
+                    <td className="py-2 px-4 border-b">{formattedDate}</td>
+                    <td className="py-2 px-4 border-b">{service.children}</td>
+                    <td className="py-2 px-4 border-b">{service.email}</td>
+                    <td className="py-2 px-4 border-b">{service.number}</td>
+                    <td className="py-2 px-4 border-b">
+                      <button
+                        onClick={() => handleDelete(service._id)}
+                        className="bg-red-500 text-white px-4 py-2 rounded"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
                 <td colSpan="7" className="py-4 px-4 text-center">

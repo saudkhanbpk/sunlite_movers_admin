@@ -24,6 +24,7 @@ const AddPackage = () => {
     policy: "",
     pickupTime: "",
     dropoffTime: "",
+    
   });
 
   const [selectedFile, setSelectedFile] = useState([]);
