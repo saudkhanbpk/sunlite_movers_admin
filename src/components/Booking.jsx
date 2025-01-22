@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import axios from "axios";
 import { BaseUrl } from "../BaseUrl";
-import { toast } from "react-toastify";
-import { FaSpinner } from "react-icons/fa";
 const Booking = () => {
   const [bookingData, setBookingData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [loadingBooking, setLoadingBooking] = useState(null);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
@@ -15,7 +12,7 @@ const Booking = () => {
   useEffect(() => {
     const fetchBooking = async () => {
       try {
-        const response = await axios.get(`${BaseUrl}/api/bookings`);
+        const response = await axios.get(`${BaseUrl}/api/get`);
         setBookingData(response.data);
         setFilteredData(response.data);
       } catch (error) {
@@ -31,36 +28,10 @@ const Booking = () => {
     setSearchQuery(query);
     const filtered = bookingData.filter(
       (booking) =>
-        booking.name.toLowerCase().includes(query.toLowerCase()) ||
+        booking.personalInfo.name.toLowerCase().includes(query.toLowerCase()) ||
         booking.bookingCode.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredData(filtered);
-  };
-
-  const updateBookingStatus = async (bookingCode, newStatus) => {
-    setLoadingBooking(bookingCode);
-    try {
-      await axios.put(`${BaseUrl}/api/updatebooking/${bookingCode}`, {
-        status: newStatus.toLowerCase(),
-      });
-      toast.success("Booking Status Updated");
-    } catch (error) {
-      console.error("Error updating status:", error);
-    } finally {
-      setLoadingBooking(null);
-    }
-  };
-
-  const handleStatusChange = (bookingCode, newStatus) => {
-    setBookingData((prevData) =>
-      prevData.map((booking) =>
-        booking.bookingCode === bookingCode
-          ? { ...booking, status: newStatus }
-          : booking
-      )
-    );
-
-    updateBookingStatus(bookingCode, newStatus);
   };
 
   const handleRowClick = (booking) => {
@@ -80,59 +51,26 @@ const Booking = () => {
         <table className="w-full table-auto text-[15px]">
           <thead className="bg-[#E8F5FE]">
             <tr>
-              <th className="px-4 py-2 text-left">Booking Code</th>
+              <th className="px-4 py-2 text-left">Job Type</th>
               <th className="px-4 py-2 text-left">Name</th>
-              <th className="px-4 py-2 text-left">Package</th>
-              <th className="px-4 py-2 text-left">Booking Date</th>
-              <th className="px-4 py-2 text-left">Price</th>
-              <th className="px-4 py-2 text-left">Status</th>
+              <th className="px-4 py-2 text-left">Email</th>
+              <th className="px-4 py-2 text-left">Phone Number</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((booking) => {
-                const formattedDate = new Date(booking.bookingDate).toLocaleDateString(
-                  "en-US",
-                  {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                  }
-                );
-
                 return (
                   <tr
                     key={booking._id}
                     className="border-b"
                     onClick={() => handleRowClick(booking)}
                   >
-                    <td className="px-4 py-2">{booking.bookingCode}</td>
-                    <td className="px-4 py-2">{booking.name}</td>
-                    <td className="px-4 py-2">{booking.title}</td>
-                    <td className="px-4 py-2">{formattedDate}</td>
-                    <td className="px-4 py-2">AED {booking.price}</td>
+                    <td className="px-4 py-2">{booking.jobType}</td>
+                    <td className="px-4 py-2">{booking.personalInfo.name}</td>
+                    <td className="px-4 py-2">{booking.personalInfo.email}</td>
                     <td className="px-4 py-2">
-                      {loadingBooking === booking.bookingCode ? (
-                        <div className="text-blue-500">
-                          <FaSpinner className="animate-spin mr-2" />
-                        </div>
-                      ) : (
-                        <select
-                          value={booking.status}
-                          onChange={(e) =>
-                            handleStatusChange(
-                              booking.bookingCode,
-                              e.target.value
-                            )
-                          }
-                          className="border rounded px-2 py-1"
-                          disabled={loadingBooking !== null}
-                        >
-                          <option value="pending">Pending</option>
-                          <option value="confirmed">Confirmed</option>
-                          <option value="rejected">Rejected</option>
-                        </select>
-                      )}
+                      {booking.personalInfo.phoneNumber}
                     </td>
                   </tr>
                 );
@@ -158,44 +96,66 @@ const Booking = () => {
             </button>
             <h2 className="text-xl font-semibold mb-4">Booking Details</h2>
             <p>
-              <strong>Booking Code:</strong> {selectedBooking.bookingCode}
+              <strong>Job Type:</strong> {selectedBooking.jobType}
             </p>
             <p>
-              <strong>Name:</strong> {selectedBooking.name}
+              <strong>Name:</strong> {selectedBooking.personalInfo.name}
             </p>
             <p>
-              <strong>Email:</strong> {selectedBooking.email}
+              <strong>Email:</strong> {selectedBooking.personalInfo.email}
             </p>
             <p>
-              <strong>Package:</strong> {selectedBooking.title}
+              <strong>Phone Number:</strong>{" "}
+              {selectedBooking.personalInfo.phoneNumber}
+            </p>
+
+            <p>
+              <strong>Moving From:</strong>
+              <div className="flex items-center">
+                <p>Post Code:</p>
+                <p> {selectedBooking.movingTo.postCode}</p>
+              </div>
+              <div className="flex items-center">
+                <p>Address:</p>
+                <p> {selectedBooking.movingTo.address}</p>,
+              </div>
             </p>
             <p>
-              <strong>Date:</strong>{" "}
-              {new Date(selectedBooking.date).toLocaleDateString("en-US")}
+              <strong>Moving To:</strong>
+              <div className="flex items-center">
+                <p>Post Code:</p>
+                <p> {selectedBooking.movingFrom.postCode}</p>
+              </div>
+              <div className="flex items-center">
+                <p>Address:</p>
+                <p> {selectedBooking.movingFrom.address}</p>,
+              </div>
             </p>
             <p>
-              <strong>Price:</strong> AED {selectedBooking.price}
+              <strong>Requirments:</strong>
+              <div className="flex items-center">
+                <p>Moving Date:</p>
+                <p> {selectedBooking.requirements.movingDate}</p>
+              </div>
+              <div className="flex items-center">
+                <p>Helpers:</p>
+                <p> {selectedBooking.requirements.loadingHelp}</p>
+              </div>
+              <div className="flex items-center">
+                <p>Vehicle Required:</p>
+                <p> {selectedBooking.requirements.vehicleRequired}</p>
+              </div>
             </p>
             <p>
-              <strong>Infants:</strong> {selectedBooking.infants || 0}
-            </p>
-            <p>
-              <strong>Children:</strong> {selectedBooking.children}
-            </p>
-            <p>
-              <strong>Adults:</strong> {selectedBooking.adults}
-            </p>
-            <p>
-              <strong>Days:</strong> {selectedBooking.days}
-            </p>
-            <p>
-              <strong>Nights:</strong> {selectedBooking.nights}
-            </p>
-            <p>
-              <strong>Hours:</strong> {selectedBooking.hours}
-            </p>
-            <p>
-              <strong>Status:</strong> {selectedBooking.status}
+              <strong>Additional Info:</strong>
+              <div className="flex items-center">
+                <p>Extra Details:</p>
+                <p> {selectedBooking.additionalInfo.extraDetails}</p>
+              </div>
+              <div className="flex items-center">
+                <p>Item List:</p>
+                <p> {selectedBooking.additionalInfo.itemList}</p>
+              </div>
             </p>
           </div>
         </div>

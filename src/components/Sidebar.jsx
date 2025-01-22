@@ -22,9 +22,10 @@ const Sidebar = ({ isOpen }) => {
         }`}
       >
         <div className="p-4 pt-7">
-          <Link to="/">
+          {/* <Link to="/">
             <img src={logo} className="w-[150px]" />
-          </Link>
+          </Link> */}
+          <h1>SUNLITE <br/>MOVERS</h1>
         </div>
         <nav className="mt-4">
           <NavLink
