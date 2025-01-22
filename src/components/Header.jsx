@@ -31,11 +31,7 @@ const Header = ({ onSearch }) => {
     if (onSearch) onSearch(value);
   };
 
-  // Handle user logout
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
+ 
 
   return (
     <div className="flex flex-col md:flex-row justify-between items-center mb-6">
@@ -61,7 +57,7 @@ const Header = ({ onSearch }) => {
         </button>
 
         <div className="bg-[#E8F5FE] px-5 py-2 rounded-full shadow-lg flex items-center justify-center">
-          <button onClick={handleLogout} className="text-black font-bold">
+          <button className="text-black font-bold">
             Logout
           </button>
         </div>

@@ -8,7 +8,6 @@ import Booking from "../components/Booking";
 import Agents from "../components/Agents";
 import Guides from "../components/Guides";
 import Drivers from "../components/Drivers";
-import ProtectedRoute from "../components/ProtectedRoute";
 import Login from "../components/Login";
 import ForgotPassword from "../components/ForgotPassword";
 
@@ -38,47 +37,11 @@ const AppRoutes = () => {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/booking"
-              element={
-                <ProtectedRoute>
-                  <Booking />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/agents"
-              element={
-                <ProtectedRoute>
-                  <Agents />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/guides"
-              element={
-                <ProtectedRoute>
-                  <Guides />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/drivers"
-              element={
-                <ProtectedRoute>
-                  <Drivers />
-                </ProtectedRoute>
-              }
-            />
-
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/booking" element={<Booking />} />
+            <Route path="/agents" element={<Agents />} />
+            <Route path="/guides" element={<Guides />} />
+            <Route path="/drivers" element={<Drivers />} />
           </Routes>
         </div>
       </div>
