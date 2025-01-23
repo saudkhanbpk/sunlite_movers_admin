@@ -8,7 +8,6 @@ import {
 } from "react-icons/fa";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
-import { BaseUrl } from "../BaseUrl";
 import { toast } from "react-toastify";
 
 const Agents = () => {
