@@ -11,12 +11,6 @@ const apiClient = axios.create({
 
 apiClient.interceptors.response.use(
   (response) => response
-  // (error) => {
-  // if (error.response.status === 401) {
-  // store.dispatch(clearUserState());
-  // }
-  // return Promise.reject(error);
-  // }
 );
 
 export const getRequest = async (endpoint, headers = {}) => {
