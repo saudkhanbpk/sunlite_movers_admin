@@ -9,9 +9,7 @@ const apiClient = axios.create({
   },
 });
 
-apiClient.interceptors.response.use(
-  (response) => response
-);
+apiClient.interceptors.response.use((response) => response);
 
 export const getRequest = async (endpoint, headers = {}) => {
   const response = await apiClient.get(endpoint, { headers });

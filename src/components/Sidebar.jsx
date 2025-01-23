@@ -25,7 +25,10 @@ const Sidebar = ({ isOpen }) => {
           {/* <Link to="/">
             <img src={logo} className="w-[150px]" />
           </Link> */}
-          <h1>SUNLITE <br/>MOVERS</h1>
+          <h1>
+            SUNLITE <br />
+            MOVERS
+          </h1>
         </div>
         <nav className="mt-4">
           <NavLink
@@ -38,6 +41,17 @@ const Sidebar = ({ isOpen }) => {
           >
             <FaHome className="mr-3" size={20} />
             Dashboard
+          </NavLink>
+          <NavLink
+            to="/booking"
+            className={({ isActive }) =>
+              `flex text-[18px] pt-6 items-center px-4 py-2 ${
+                isActive ? "text-[#4318FF]" : "text-[#000000]"
+              }`
+            }
+          >
+            <FaBookOpen className="mr-3" size={20} />
+            Bookings
           </NavLink>
           <NavLink
             to="/packages"
@@ -83,17 +97,7 @@ const Sidebar = ({ isOpen }) => {
             <FaServicestack className="mr-3" size={20} />
             Booked Service
           </NavLink>
-          <NavLink
-            to="/booking"
-            className={({ isActive }) =>
-              `flex text-[18px] pt-6 items-center px-4 py-2 ${
-                isActive ? "text-[#4318FF]" : "text-[#000000]"
-              }`
-            }
-          >
-            <FaBookOpen className="mr-3" size={20} />
-            Bookings
-          </NavLink>
+
           <NavLink
             to="/calendar"
             className={({ isActive }) =>
