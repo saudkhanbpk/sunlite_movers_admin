@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
-import axios from "axios";
-import { BaseUrl } from "../BaseUrl";
+import { getRequest } from "../ApiServices/ApiService";
 const Booking = () => {
   const [bookingData, setBookingData] = useState([]);
+  console.log(bookingData);
   const [loading, setLoading] = useState(true);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -12,9 +12,9 @@ const Booking = () => {
   useEffect(() => {
     const fetchBooking = async () => {
       try {
-        const response = await axios.get(`${BaseUrl}/api/get`);
-        setBookingData(response.data);
-        setFilteredData(response.data);
+        const response = await getRequest('/get');
+        setBookingData(response);
+        setFilteredData(response);
       } catch (error) {
         console.log(error);
       } finally {
@@ -58,7 +58,7 @@ const Booking = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredData.length > 0 ? (
+            {filteredData?.length > 0 ? (
               filteredData.map((booking) => {
                 return (
                   <tr
